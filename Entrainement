@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LATINA</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6f3; --card: #ffffff; --border: #e0ddd6; --text: #1c1b18;
+    --muted: #9b9890; --accent: #4a7c9e; --ok: #4a7c9e; --err: #b84040;
+    --input: #f3f1ec; --r: 10px; --r-sm: 6px;
+    --mono: 'JetBrains Mono', monospace; --serif: 'Cormorant Garamond', Georgia, serif;
+  }
+  [data-theme="dark"] {
+    --bg: #0f0f10; --card: #18181a; --border: #2a2a2e; --text: #e0ddd6;
+    --muted: #55544f; --accent: #6b9ec7; --ok: #6b9ec7; --err: #c06060; --input: #141416;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--serif); background: var(--bg); color: var(--text);
+    font-size: 16px; line-height: 1.6; transition: background .2s, color .2s;
+    overflow-x: hidden;
+  }
+  #welcome {
+    position: fixed; inset: 0; z-index: 1000; background: var(--bg);
+    display: flex; align-items: center; justify-content: center; transition: opacity .3s;
+  }
+  #welcome.hidden { opacity: 0; pointer-events: none; }
+  .device-btns { display: flex; gap: 8px; }
+  .device-btn {
+    font-family: var(--mono); font-size: .68rem; letter-spacing: .14em;
+    text-transform: uppercase; padding: .7rem 2.2rem; border: 1.5px solid var(--border);
+    border-radius: var(--r); background: var(--card); color: var(--muted);
+    cursor: pointer; transition: all .15s;
+  }
+  .device-btn:hover { border-color: var(--accent); color: var(--accent); }
+  #app { min-height: 100vh; display: flex; flex-direction: column; opacity: 0; transition: opacity .3s; }
+  #app.visible { opacity: 1; }
+  header {
+    display: flex; align-items: center; justify-content: space-between; padding: 0 2rem;
+    height: 54px; background: var(--card); border-bottom: 1.5px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo {
+    font-family: var(--serif); font-size: 1.05rem; font-weight: 400;
+    letter-spacing: .3em; text-transform: uppercase; color: var(--text);
+  }
+  .logo em { font-style: normal; color: var(--accent); }
+  .theme-btn {
+    width: 34px; height: 34px; border: 1.5px solid var(--border); border-radius: var(--r-sm);
+    background: transparent; color: var(--muted); cursor: pointer; font-size: .85rem;
+    display: flex; align-items: center; justify-content: center; transition: all .15s;
+  }
+  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  nav {
+    display: flex; gap: 2px; background: var(--card); border-bottom: 1.5px solid var(--border);
+    padding: 0 2rem;
+  }
+  .tab-btn {
+    font-family: var(--mono); font-size: .6rem; letter-spacing: .16em; text-transform: uppercase;
+    padding: .85rem 1.3rem; border: none; border-bottom: 2px solid transparent;
+    background: transparent; color: var(--muted); cursor: pointer; transition: color .15s;
+    margin-bottom: -1.5px;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  main { flex: 1; padding: 2rem; max-width: 1100px; width: 100%; margin: 0 auto; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .card {
+    background: var(--card); border: 1.5px solid var(--border); border-radius: var(--r);
+    overflow: hidden; margin-bottom: 1.5rem;
+  }
+  .card-header {
+    padding: .75rem 1.25rem; border-bottom: 1.5px solid var(--border);
+    font-family: var(--mono); font-size: .58rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .sub-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; }
+  .sub-btn {
+    font-family: var(--mono); font-size: .57rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: .38rem .85rem; border: 1.5px solid var(--border); border-radius: var(--r-sm);
+    background: var(--card); color: var(--muted); cursor: pointer; transition: all .15s;
+  }
+  .sub-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .sub-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-family: var(--serif); font-size: .93rem; }
+  th {
+    font-family: var(--mono); font-size: .56rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); padding: .6rem 1rem; border-bottom: 1.5px solid var(--border);
+    text-align: left; font-weight: 400; background: var(--bg);
+  }
+  td { padding: .5rem 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  .row-label {
+    font-family: var(--mono); font-size: .58rem; letter-spacing: .1em; color: var(--muted);
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .cell-input {
+    font-family: var(--serif); font-size: .93rem; background: var(--input);
+    border: 1.5px solid var(--border); border-radius: var(--r-sm); color: var(--text);
+    padding: .3rem .6rem; width: 100%; min-width: 80px; outline: none; transition: border-color .15s;
+  }
+  .cell-input:focus { border-color: var(--accent); }
+  .cell-input.correct {
+    border-color: var(--ok); color: var(--ok);
+    background: color-mix(in srgb, var(--ok) 6%, var(--input));
+  }
+  .cell-input.wrong {
+    border-color: var(--err); color: var(--err);
+    background: color-mix(in srgb, var(--err) 6%, var(--input));
+  }
+  .correction-text {
+    font-family: var(--mono); font-size: .58rem; color: var(--err); margin-top: 3px; display: block;
+  }
+  .action-bar {
+    display: flex; gap: .6rem; align-items: center; margin-top: 1.5rem; padding-top: 1.2rem;
+    border-top: 1.5px solid var(--border);
+  }
+  .btn-primary, .btn-ghost, .nav-word-btn {
+    font-family: var(--mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+    padding: .58rem 1.5rem; border: 1.5px solid; border-radius: var(--r-sm); cursor: pointer;
+    transition: all .15s; background: transparent;
+  }
+  .btn-primary { border-color: var(--accent); color: #fff; background: var(--accent); }
+  .btn-primary:hover { opacity: .88; }
+  .btn-ghost { border-color: var(--border); color: var(--muted); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-word-btn { border-color: var(--border); color: var(--muted); }
+  .nav-word-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .feedback {
+    font-family: var(--mono); font-size: .6rem; letter-spacing: .06em; line-height: 1.9;
+    padding: .65rem 1rem; border-radius: var(--r-sm); margin-bottom: 1.2rem; display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok {
+    background: color-mix(in srgb, var(--ok) 10%, var(--card)); color: var(--ok);
+    border: 1.5px solid color-mix(in srgb, var(--ok) 30%, var(--border));
+  }
+  .feedback.err {
+    background: color-mix(in srgb, var(--err) 10%, var(--card)); color: var(--err);
+    border: 1.5px solid color-mix(in srgb, var(--err) 30%, var(--border));
+  }
+  .id-layout { display: grid; grid-template-columns: 260px 1fr; gap: 1.5rem; align-items: start; }
+  .word-display {
+    background: var(--card); border: 1.5px solid var(--border); border-radius: var(--r);
+    padding: 2rem 1.5rem; text-align: center;
+  }
+  .word-latin {
+    font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 300;
+    font-style: italic; color: var(--text); margin-bottom: .5rem; line-height: 1.3;
+  }
+  .word-counter {
+    font-family: var(--mono); font-size: .55rem; letter-spacing: .18em; color: var(--muted);
+    text-transform: uppercase; display: block; margin-top: .8rem;
+  }
+  .id-form-card {
+    background: var(--card); border: 1.5px solid var(--border); border-radius: var(--r);
+    padding: 1.5rem; display: flex; flex-direction: column; gap: 1.1rem;
+  }
+  .id-group { display: flex; flex-direction: column; gap: .5rem; }
+  .id-group label.group-title {
+    font-family: var(--mono); font-size: .55rem; letter-spacing: .16em; color: var(--muted);
+    text-transform: uppercase; display: block;
+  }
+  .checkbox-grid { display: flex; flex-wrap: wrap; gap: .3rem .6rem; }
+  .check-item {
+    display: flex; align-items: center; gap: .3rem; font-family: var(--mono);
+    font-size: .65rem; color: var(--text); cursor: pointer;
+  }
+  .check-item input[type=checkbox], .check-item input[type=radio] {
+    width: 13px; height: 13px; accent-color: var(--accent); cursor: pointer;
+  }
+  .trad-layout { display: grid; grid-template-columns: 1fr 280px; gap: 1.5rem; align-items: start; }
+  .trad-left {
+    background: var(--card); border: 1.5px solid var(--border); border-radius: var(--r); padding: 1.5rem;
+  }
+  .phrase-counter {
+    font-family: var(--mono); font-size: .55rem; letter-spacing: .16em; color: var(--muted);
+    margin-bottom: .7rem;
+  }
+  .phrase-latin {
+    font-family: var(--serif); font-size: 1.3rem; font-style: italic; font-weight: 300;
+    color: var(--text); line-height: 1.8; margin-bottom: 1.2rem; padding-bottom: 1rem;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .trad-textarea {
+    font-family: var(--serif); font-size: .95rem; background: var(--input);
+    border: 1.5px solid var(--border); border-radius: var(--r-sm); color: var(--text);
+    padding: .65rem .9rem; width: 100%; min-height: 76px; resize: vertical; outline: none;
+    transition: border-color .15s; line-height: 1.6;
+  }
+  .trad-textarea:focus { border-color: var(--accent); }
+  .trad-textarea.correct { border-color: var(--ok); }
+  .trad-textarea.wrong { border-color: var(--err); }
+  .correction-box {
+    display: none; margin-top: .8rem; padding-top: .8rem; border-top: 1.5px solid var(--border);
+  }
+  .correction-box.show { display: block; }
+  .correction-label {
+    font-family: var(--mono); font-size: .55rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ok); margin-bottom: .3rem;
+  }
+  .correction-text-trad { font-family: var(--serif); font-size: .95rem; color: var(--text); }
+  .lexique {
+    background: var(--card); border: 1.5px solid var(--border); border-radius: var(--r); overflow: hidden;
+  }
+  .lexique-header {
+    font-family: var(--mono); font-size: .55rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); padding: .65rem 1rem; border-bottom: 1.5px solid var(--border);
+    background: var(--bg);
+  }
+  .lex-item { border-bottom: 1px solid var(--border); }
+  .lex-item:last-child { border-bottom: none; }
+  .lex-trigger {
+    display: flex; align-items: center; justify-content: space-between; padding: .5rem 1rem;
+    cursor: pointer; gap: .5rem; transition: background .12s;
+  }
+  .lex-trigger:hover { background: var(--bg); }
+  .lex-word { font-family: var(--serif); font-style: italic; font-size: .9rem; color: var(--text); }
+  .lex-arrow {
+    font-family: var(--mono); font-size: .5rem; color: var(--muted); transition: transform .18s;
+  }
+  .lex-item.open .lex-arrow { transform: rotate(90deg); }
+  .lex-details {
+    display: none; padding: .4rem 1rem .6rem 1rem; font-family: var(--mono); font-size: .6rem;
+    line-height: 1.6; color: var(--ok); border-top: 1px solid var(--border);
+    background: color-mix(in srgb, var(--ok) 4%, var(--card));
+  }
+  .lex-item.open .lex-details { display: block; }
+  .conj-display {
+    background: var(--card); border: 1.5px solid var(--border); border-radius: var(--r);
+    padding: 2rem 1.5rem; text-align: center; margin-bottom: 1.5rem;
+  }
+  .conj-goffiot {
+    font-family: var(--serif); font-size: clamp(1.2rem, 3vw, 1.8rem); font-style: italic;
+    color: var(--text); margin-bottom: .8rem; line-height: 1.4;
+  }
+  body[data-device="mobile"] main { padding: 1rem; }
+  body[data-device="mobile"] .id-layout,
+  body[data-device="mobile"] .trad-layout { grid-template-columns: 1fr; }
+  body[data-device="mobile"] header { padding: 0 1rem; }
+  body[data-device="mobile"] nav { padding: 0 .5rem; }
+  body[data-device="mobile"] .tab-btn { padding: .75rem .75rem; }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body data-device="desktop">
+
+<div id="welcome">
+  <div class="device-btns">
+    <button class="device-btn" onclick="selectDevice('desktop')">PC</button>
+    <button class="device-btn" onclick="selectDevice('mobile')">Téléphone</button>
+  </div>
+</div>
+
+<div id="app">
+  <header>
+    <span class="logo">LAT<em>I</em>NA</span>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Thème clair / sombre">☾</button>
+  </header>
+
+  <nav>
+    <button class="tab-btn active" data-tab="tableaux">Tableaux</button>
+    <button class="tab-btn" data-tab="identification">Identification</button>
+    <button class="tab-btn" data-tab="traduction">Traduction</button>
+    <button class="tab-btn" data-tab="conjugaison">Groupe conjugaison</button>
+  </nav>
+
+  <main>
+    <div id="panel-tableaux" class="panel active">
+      <div class="sub-tabs" id="subTabs"></div>
+      <div id="feedbackTableaux" class="feedback"></div>
+      <div class="card">
+        <div class="card-header" id="tableTitle">Tableau</div>
+        <div class="table-wrap"><div id="tableContent"></div></div>
+      </div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="validerTableau()">Valider</button>
+        <button class="btn-ghost" onclick="reinitTableau()">Réinitialiser</button>
+      </div>
+    </div>
+
+    <div id="panel-identification" class="panel">
+      <div id="feedbackId" class="feedback"></div>
+      <div class="id-layout">
+        <div class="word-display">
+          <div class="word-latin" id="idWord">—</div>
+          <span class="word-counter" id="idCounter">1 / 120</span>
+        </div>
+        <div class="id-form-card" id="idForm"></div>
+      </div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="validerIdentification()">Valider</button>
+        <button class="btn-ghost" onclick="reinitIdentification()">Réinitialiser</button>
+        <button class="nav-word-btn" onclick="nextWord()" style="margin-left:auto">Suivant →</button>
+      </div>
+    </div>
+
+    <div id="panel-traduction" class="panel">
+      <div class="trad-layout">
+        <div class="trad-left">
+          <div class="phrase-counter" id="tradCounter">Phrase 1 / 30</div>
+          <div class="phrase-latin" id="tradPhrase">—</div>
+          <textarea class="trad-textarea" id="tradInput" placeholder="Votre traduction…"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();validerTrad();}"></textarea>
+          <div class="correction-box" id="tradCorrection">
+            <div class="correction-label">Correction</div>
+            <div class="correction-text-trad" id="tradCorrText"></div>
+          </div>
+        </div>
+        <div>
+          <div class="lexique" id="lexique">
+            <div class="lexique-header">Lexique</div>
+          </div>
+        </div>
+      </div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="validerTrad()">Valider</button>
+        <button class="btn-ghost" onclick="reinitTrad()">Réinitialiser</button>
+        <button class="nav-word-btn" onclick="nextPhrase()" style="margin-left:auto">Phrase suivante →</button>
+      </div>
+    </div>
+
+    <div id="panel-conjugaison" class="panel">
+      <div id="feedbackConj" class="feedback"></div>
+      <div class="conj-display">
+        <div class="conj-goffiot" id="conjVerb">—</div>
+        <span class="word-counter" id="conjCounter">1 / 38</span>
+      </div>
+      <div class="card">
+        <div class="card-header">Identifier le groupe de conjugaison</div>
+        <div style="padding: 1.5rem;">
+          <div class="id-group">
+            <label class="group-title">Conjugaison</label>
+            <div class="checkbox-grid">
+              <label class="check-item"><input type="radio" name="conjGroup" value="1"> 1ère conjugaison</label>
+              <label class="check-item"><input type="radio" name="conjGroup" value="2"> 2ème conjugaison</label>
+              <label class="check-item"><input type="radio" name="conjGroup" value="3"> 3ème conjugaison</label>
+              <label class="check-item"><input type="radio" name="conjGroup" value="4"> 4ème conjugaison</label>
+              <label class="check-item"><input type="radio" name="conjGroup" value="irr"> Irrégulier</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="action-bar">
+        <button class="btn-primary" onclick="validerConjGroup()">Valider</button>
+        <button class="btn-ghost" onclick="reinitConjGroup()">Réinitialiser</button>
+        <button class="nav-word-btn" onclick="nextConjVerb()" style="margin-left:auto">Suivant →</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+function selectDevice(device) {
+  document.body.dataset.device = device;
+  const w = document.getElementById('welcome');
+  w.classList.add('hidden');
+  setTimeout(() => { w.style.display = 'none'; }, 450);
+  document.getElementById('app').classList.add('visible');
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? '' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '☾' : '☀';
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+const TABLES = [
+  {title: "Génitif / Déclinaisons", headers: ["","D1","D2","D3"], rows: [
+    {label:"Génitif", cells:[{v:"-ae",e:true},{v:"-i",e:true},{v:"-is",e:true}]},
+    {label:"Exemple", cells:[{v:"rosa -ae",e:true},{v:"dominus -i",e:true},{v:"consul -is",e:true}]}
+  ]},
+  {title: "Infectum · Perfectum", headers: ["Forme","Latin","Traduction"], rows: [
+    {label:"Inf. Présent actif P1", cells:[{v:"Amo",e:true},{v:"J'aime",e:false}]},
+    {label:"Inf. Présent actif P2", cells:[{v:"Amas",e:true},{v:"Tu aimes",e:false}]},
+    {label:"Infinitif Présent", cells:[{v:"Amare",e:true},{v:"aimer",e:false}]},
+    {label:"Ind. Parfait P1", cells:[{v:"Amavi",e:true},{v:"j'ai aimé / j'aimai",e:false}]},
+    {label:"Participe Passé", cells:[{v:"Amatum",e:true},{v:"Aimé(e)(s)",e:false}]}
+  ]},
+  {title: "Conjugaison du Parfait", headers: ["Personne","Latin","Français"], rows: [
+    {label:"1sg", cells:[{v:"Amavi",e:true},{v:"j'aimai / j'ai aimé",e:false}]},
+    {label:"2sg", cells:[{v:"Amavisti",e:true},{v:"tu aimas / t'as aimé",e:false}]},
+    {label:"3sg", cells:[{v:"Amavit",e:true},{v:"il aima / a aimé",e:false}]},
+    {label:"1pl", cells:[{v:"Amavimus",e:true},{v:"nous aimâmes / avons aimé",e:false}]},
+    {label:"2pl", cells:[{v:"Amavistis",e:true},{v:"vous aimâtes / avez aimé",e:false}]},
+    {label:"3pl", cells:[{v:"Amaverunt/ere",e:true},{v:"ils aimèrent / ont aimé",e:false}]}
+  ]},
+  {title: "Conjugaison du Plus-que-parfait", headers: ["Personne","Latin","Français"], rows: [
+    {label:"1sg", cells:[{v:"Amaveram",e:true},{v:"J'avais aimé",e:false}]},
+    {label:"2sg", cells:[{v:"Amaveras",e:true},{v:"tu avais aimé",e:false}]},
+    {label:"3sg", cells:[{v:"Amaverat",e:true},{v:"il avait aimé",e:false}]},
+    {label:"1pl", cells:[{v:"Amaveramus",e:true},{v:"nous avions aimé",e:false}]},
+    {label:"2pl", cells:[{v:"Amaveratis",e:true},{v:"vous aviez aimé",e:false}]},
+    {label:"3pl", cells:[{v:"Amaverant",e:true},{v:"ils avaient aimé",e:false}]}
+  ]},
+  {title: "Déclinaisons D1 & D2", headers: ["Cas","F sg","M sg","N sg","F pl","M pl","N pl"], rows: [
+    {label:"Nom.", cells:[{v:"Rosa",e:true},{v:"Dominus",e:true},{v:"Templum",e:true},{v:"Rosae",e:true},{v:"Domini",e:true},{v:"Templa",e:true}]},
+    {label:"Voc.", cells:[{v:"Rosa",e:true},{v:"Domine",e:true},{v:"Templum",e:true},{v:"Rosae",e:true},{v:"Domini",e:true},{v:"Templa",e:true}]},
+    {label:"Acc.", cells:[{v:"Rosam",e:true},{v:"Dominum",e:true},{v:"Templum",e:true},{v:"Rosas",e:true},{v:"Dominos",e:true},{v:"Templa",e:true}]},
+    {label:"Gén.", cells:[{v:"Rosae",e:true},{v:"Domini",e:true},{v:"Templi",e:true},{v:"Rosarum",e:true},{v:"Dominorum",e:true},{v:"Templorum",e:true}]},
+    {label:"Dat.", cells:[{v:"Rosae",e:true},{v:"Domino",e:true},{v:"Templo",e:true},{v:"Rosis",e:true},{v:"Dominis",e:true},{v:"Templis",e:true}]},
+    {label:"Abl.", cells:[{v:"Rosa",e:true},{v:"Domino",e:true},{v:"Templo",e:true},{v:"Rosis",e:true},{v:"Dominis",e:true},{v:"Templis",e:true}]}
+  ]},
+  {title: "D3 : PARI", headers: ["Cas","F/M sg","N sg","F/M pl","N pl"], rows: [
+    {label:"Nom.", cells:[{v:"Civis",e:true},{v:"Mare",e:true},{v:"Cives",e:true},{v:"Maria",e:true}]},
+    {label:"Voc.", cells:[{v:"Civis",e:true},{v:"Mare",e:true},{v:"Cives",e:true},{v:"Maria",e:true}]},
+    {label:"Acc.", cells:[{v:"Civem",e:true},{v:"Mare",e:true},{v:"Cives",e:true},{v:"Maria",e:true}]},
+    {label:"Gén.", cells:[{v:"Civis",e:true},{v:"Maris",e:true},{v:"CivIUM",e:true},{v:"MarIUM",e:true}]},
+    {label:"Dat.", cells:[{v:"Civi",e:true},{v:"Mari",e:true},{v:"Civibus",e:true},{v:"Maribus",e:true}]},
+    {label:"Abl.", cells:[{v:"Cive",e:true},{v:"Mari",e:true},{v:"Civibus",e:true},{v:"Maribus",e:true}]}
+  ]},
+  {title: "D3 : IMPARI", headers: ["Cas","F/M sg","N sg","F/M pl","N pl"], rows: [
+    {label:"Nom.", cells:[{v:"Consul",e:true},{v:"Corpus",e:true},{v:"Consules",e:true},{v:"Corpora",e:true}]},
+    {label:"Voc.", cells:[{v:"Consul",e:true},{v:"Corpus",e:true},{v:"Consules",e:true},{v:"Corpora",e:true}]},
+    {label:"Acc.", cells:[{v:"Consulem",e:true},{v:"Corpus",e:true},{v:"Consules",e:true},{v:"Corpora",e:true}]},
+    {label:"Gén.", cells:[{v:"Consulis",e:true},{v:"Corporis",e:true},{v:"ConsulUM",e:true},{v:"CorporUM",e:true}]},
+    {label:"Dat.", cells:[{v:"Consuli",e:true},{v:"Corpori",e:true},{v:"Consulibus",e:true},{v:"Corporibus",e:true}]},
+    {label:"Abl.", cells:[{v:"Consule",e:true},{v:"Corpore",e:true},{v:"Consulibus",e:true},{v:"Corporibus",e:true}]}
+  ]},
+  {title: "Pronoms Possessifs", headers: ["Nb poss.","Latin","Traduction"], rows: [
+    {label:"1 poss. 1sg", cells:[{v:"Meus, a, um",e:true},{v:"mon, ma, mes",e:false}]},
+    {label:"1 poss. 2sg", cells:[{v:"Tuus, a, um",e:true},{v:"ton, ta, tes",e:false}]},
+    {label:"1 poss. 3sg", cells:[{v:"Suus, a, um",e:true},{v:"son, sa, ses",e:false}]},
+    {label:"Plur. 1pl", cells:[{v:"Noster, tra, trum",e:true},{v:"notre, nos",e:false}]},
+    {label:"Plur. 2pl", cells:[{v:"uester, tra, trum",e:true},{v:"votre, vos",e:false}]},
+    {label:"Plur. 3pl", cells:[{v:"suus, tra, trum",e:true},{v:"leur, leurs",e:false}]}
+  ]},
+  {title: "Pronoms Relatifs — Singulier", headers: ["Cas","Masc.","Fém.","Neutre","Trad."], rows: [
+    {label:"Nom.", cells:[{v:"qui",e:true},{v:"quae",e:true},{v:"quod",e:true},{v:"qui",e:false}]},
+    {label:"Acc.", cells:[{v:"quem",e:true},{v:"quam",e:true},{v:"quod",e:true},{v:"que",e:false}]},
+    {label:"Gén.", cells:[{v:"cuius",e:true},{v:"cuius",e:true},{v:"cuius",e:true},{v:"dont, de qui",e:false}]},
+    {label:"Dat.", cells:[{v:"cui",e:true},{v:"cui",e:true},{v:"cui",e:true},{v:"à qui, auquel",e:false}]},
+    {label:"Abl.", cells:[{v:"quo",e:true},{v:"qua",e:true},{v:"quo",e:true},{v:"par qui, dont",e:false}]}
+  ]},
+  {title: "Pronoms Relatifs — Pluriel", headers: ["Cas","Masc.","Fém.","Neutre"], rows: [
+    {label:"Nom.", cells:[{v:"qui",e:true},{v:"quae",e:true},{v:"quae",e:true}]},
+    {label:"Acc.", cells:[{v:"quos",e:true},{v:"quas",e:true},{v:"quae",e:true}]},
+    {label:"Gén.", cells:[{v:"quorum",e:true},{v:"quarum",e:true},{v:"quorum",e:true}]},
+    {label:"Dat.", cells:[{v:"quibus",e:true},{v:"quibus",e:true},{v:"quibus",e:true}]},
+    {label:"Abl.", cells:[{v:"quibus",e:true},{v:"quibus",e:true},{v:"quibus",e:true}]}
+  ]},
+  {title: "Passif Présent", headers: ["Personne","Latin","Français"], rows: [
+    {label:"1sg", cells:[{v:"Amor",e:true},{v:"je suis aimé",e:false}]},
+    {label:"2sg", cells:[{v:"Amaris",e:true},{v:"tu es aimé",e:false}]},
+    {label:"3sg", cells:[{v:"Amatur",e:true},{v:"il est aimé",e:false}]},
+    {label:"1pl", cells:[{v:"Amamur",e:true},{v:"nous sommes aimés",e:false}]},
+    {label:"2pl", cells:[{v:"Amamini",e:true},{v:"vous êtes aimés",e:false}]},
+    {label:"3pl", cells:[{v:"Amantur",e:true},{v:"ils sont aimés",e:false}]}
+  ]},
+  {title: "Passif Parfait", headers: ["Personne","Latin","Français"], rows: [
+    {label:"1sg", cells:[{v:"Amatus sum",e:true},{v:"j'étais aimé",e:false}]},
+    {label:"2sg", cells:[{v:"Amatus es",e:true},{v:"tu étais aimé",e:false}]},
+    {label:"3sg", cells:[{v:"Amatus est",e:true},{v:"il était aimé",e:false}]},
+    {label:"1pl", cells:[{v:"Amati sumus",e:true},{v:"nous étions aimés",e:false}]},
+    {label:"2pl", cells:[{v:"Amati estis",e:true},{v:"vous étiez aimés",e:false}]},
+    {label:"3pl", cells:[{v:"Amati sunt",e:true},{v:"ils étaient aimés",e:false}]}
+  ]}
+];
+
+let currentTable = 0;
+
+function buildSubTabs() {
+  const wrap = document.getElementById('subTabs');
+  wrap.innerHTML = '';
+  TABLES.forEach((t, i) => {
+    const b = document.createElement('button');
+    b.className = 'sub-btn' + (i === 0 ? ' active' : '');
+    b.textContent = t.title;
+    b.onclick = () => selectTable(i);
+    wrap.appendChild(b);
+  });
+}
+
+function selectTable(idx) {
+  currentTable = idx;
+  document.querySelectorAll('.sub-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  renderTable();
+  hideFeedback('feedbackTableaux');
+}
+
+function norm(s) {
+  return s.trim().toLowerCase()
+    .replace(/[àâä]/g,'a').replace(/[éèêë]/g,'e')
+    .replace(/[îï]/g,'i').replace(/[ôö]/g,'o')
+    .replace(/[ùûü]/g,'u').replace(/\s+/g,' ');
+}
+
+function renderTable() {
+  const t = TABLES[currentTable];
+  document.getElementById('tableTitle').textContent = t.title;
+  let html = '<table><thead><tr>';
+  t.headers.forEach(h => { html += '<th>' + h + '</th>'; });
+  html += '</tr></thead><tbody>';
+  t.rows.forEach((row, ri) => {
+    html += '<tr><td class="row-label">' + row.label + '</td>';
+    row.cells.forEach((cell, ci) => {
+      if (cell.e) {
+        html += '<td><input class="cell-input" data-row="' + ri + '" data-col="' + ci + '" data-answer="' + cell.v + '" placeholder="…" onkeydown="handleTableKey(event,' + ri + ',' + ci + ')"></td>';
+      } else {
+        html += '<td class="static-cell">' + cell.v + '</td>';
+      }
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('tableContent').innerHTML = html;
+}
+
+function handleTableKey(e, ri, ci) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    validerTableau();
+  }
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const t = TABLES[currentTable];
+    const allInputs = [];
+    const maxRows = t.rows.length;
+    const maxCols = t.rows[0].cells.length;
+    for (let col = 0; col < maxCols; col++) {
+      for (let row = 0; row < maxRows; row++) {
+        if (t.rows[row].cells[col].e) {
+          allInputs.push({row, col});
+        }
+      }
+    }
+    const currentIdx = allInputs.findIndex(inp => inp.row === ri && inp.col === ci);
+    const nextIdx = (currentIdx + 1) % allInputs.length;
+    const next = allInputs[nextIdx];
+    const nextInput = document.querySelector('.cell-input[data-row="' + next.row + '"][data-col="' + next.col + '"]');
+    if (nextInput) nextInput.focus();
+  }
+}
+
+function validerTableau() {
+  const inputs = document.querySelectorAll('.cell-input');
+  let total = 0, correct = 0;
+  inputs.forEach(inp => {
+    total++;
+    inp.classList.remove('correct','wrong');
+    const old = inp.parentElement.querySelector('.correction-text');
+    if (old) old.remove();
+    if (norm(inp.value) === norm(inp.dataset.answer)) {
+      inp.classList.add('correct');
+      correct++;
+    } else {
+      inp.classList.add('wrong');
+      const span = document.createElement('span');
+      span.className = 'correction-text';
+      span.textContent = '→ ' + inp.dataset.answer;
+      inp.parentElement.appendChild(span);
+    }
+  });
+  showFeedback('feedbackTableaux', correct, total);
+}
+
+function reinitTableau() {
+  const inputs = document.querySelectorAll('.cell-input');
+  inputs.forEach(inp => {
+    inp.value = '';
+    inp.classList.remove('correct','wrong');
+    const old = inp.parentElement.querySelector('.correction-text');
+    if (old) old.remove();
+  });
+  hideFeedback('feedbackTableaux');
+}
+
+const WORDS = [
+  {w:"rosam", type:"nom", genre:"F", decl:"D1", cas:"Acc.", nb:"sg", trad:"la rose"},
+  {w:"puellae", type:"nom", genre:"F", decl:"D1", cas:"Gén.", nb:"sg", trad:"de la jeune fille"},
+  {w:"patriam", type:"nom", genre:"F", decl:"D1", cas:"Acc.", nb:"sg", trad:"la patrie"},
+  {w:"terram", type:"nom", genre:"F", decl:"D1", cas:"Acc.", nb:"sg", trad:"la terre"},
+  {w:"rosae", type:"nom", genre:"F", decl:"D1", cas:"Nom.", nb:"pl", trad:"les roses"},
+  {w:"terrarum", type:"nom", genre:"F", decl:"D1", cas:"Gén.", nb:"pl", trad:"des terres"},
+  {w:"dominum", type:"nom", genre:"M", decl:"D2", cas:"Acc.", nb:"sg", trad:"le maître"},
+  {w:"servi", type:"nom", genre:"M", decl:"D2", cas:"Gén.", nb:"sg", trad:"de l'esclave"},
+  {w:"filio", type:"nom", genre:"M", decl:"D2", cas:"Dat.", nb:"sg", trad:"au fils"},
+  {w:"templum", type:"nom", genre:"N", decl:"D2", cas:"Nom.", nb:"sg", trad:"le temple"},
+  {w:"belli", type:"nom", genre:"N", decl:"D2", cas:"Gén.", nb:"sg", trad:"de la guerre"},
+  {w:"consulem", type:"nom", genre:"M", decl:"D3-impari", cas:"Acc.", nb:"sg", trad:"le consul"},
+  {w:"militis", type:"nom", genre:"M", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"du soldat"},
+  {w:"patri", type:"nom", genre:"M", decl:"D3-impari", cas:"Dat.", nb:"sg", trad:"au père"},
+  {w:"matris", type:"nom", genre:"F", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"de la mère"},
+  {w:"corpus", type:"nom", genre:"N", decl:"D3-impari", cas:"Nom.", nb:"sg", trad:"le corps"},
+  {w:"nominis", type:"nom", genre:"N", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"du nom"},
+  {w:"civem", type:"nom", genre:"FM", decl:"D3-pari", cas:"Acc.", nb:"sg", trad:"le/la citoyen(ne)"},
+  {w:"civis", type:"nom", genre:"FM", decl:"D3-pari", cas:"Gén.", nb:"sg", trad:"du citoyen"},
+  {w:"mare", type:"nom", genre:"N", decl:"D3-pari", cas:"Nom.", nb:"sg", trad:"la mer"},
+  {w:"amo", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"j'aime"},
+  {w:"amas", type:"verb", conj:"1", temps:"Présent actif", pers:"2sg", trad:"tu aimes"},
+  {w:"amat", type:"verb", conj:"1", temps:"Présent actif", pers:"3sg", trad:"il/elle aime"},
+  {w:"amant", type:"verb", conj:"1", temps:"Présent actif", pers:"3pl", trad:"ils aiment"},
+  {w:"amavi", type:"verb", conj:"1", temps:"Parfait", pers:"1sg", trad:"j'aimai / j'ai aimé"},
+  {w:"amavit", type:"verb", conj:"1", temps:"Parfait", pers:"3sg", trad:"il aima"},
+  {w:"amaveram", type:"verb", conj:"1", temps:"Plus-que-parfait", pers:"1sg", trad:"j'avais aimé"},
+  {w:"amor", type:"verb", conj:"1", temps:"Passif présent", pers:"1sg", trad:"je suis aimé"},
+  {w:"amatur", type:"verb", conj:"1", temps:"Passif présent", pers:"3sg", trad:"il est aimé"},
+  {w:"specto", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"je regarde"},
+  {w:"spectat", type:"verb", conj:"1", temps:"Présent actif", pers:"3sg", trad:"il regarde"},
+  {w:"incolo", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"j'habite"},
+  {w:"impero", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"je commande"},
+  {w:"video", type:"verb", conj:"2", temps:"Présent actif", pers:"1sg", trad:"je vois"},
+  {w:"videt", type:"verb", conj:"2", temps:"Présent actif", pers:"3sg", trad:"il voit"},
+  {w:"vidi", type:"verb", conj:"2", temps:"Parfait", pers:"1sg", trad:"j'ai vu"},
+  {w:"habeo", type:"verb", conj:"2", temps:"Présent actif", pers:"1sg", trad:"j'ai"},
+  {w:"habet", type:"verb", conj:"2", temps:"Présent actif", pers:"3sg", trad:"il a"},
+  {w:"dico", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je dis"},
+  {w:"dicit", type:"verb", conj:"3", temps:"Présent actif", pers:"3sg", trad:"il dit"},
+  {w:"dixit", type:"verb", conj:"3", temps:"Parfait", pers:"3sg", trad:"il dit (passé)"},
+  {w:"gero", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je fais"},
+  {w:"gerit", type:"verb", conj:"3", temps:"Présent actif", pers:"3sg", trad:"il fait"},
+  {w:"accipio", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je prends"},
+  {w:"accipit", type:"verb", conj:"3", temps:"Présent actif", pers:"3sg", trad:"il prend"},
+  {w:"peto", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je demande"},
+  {w:"trado", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je livre"},
+  {w:"pono", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je place"},
+  {w:"venio", type:"verb", conj:"4", temps:"Présent actif", pers:"1sg", trad:"je viens"},
+  {w:"venit", type:"verb", conj:"4", temps:"Présent actif", pers:"3sg", trad:"il vient"},
+  {w:"veni", type:"verb", conj:"4", temps:"Parfait", pers:"1sg", trad:"je suis venu"},
+  {w:"invenio", type:"verb", conj:"4", temps:"Présent actif", pers:"1sg", trad:"je trouve"},
+  {w:"sum", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je suis"},
+  {w:"es", type:"verb", conj:"irr", temps:"Présent actif", pers:"2sg", trad:"tu es"},
+  {w:"est", type:"verb", conj:"irr", temps:"Présent actif", pers:"3sg", trad:"il est"},
+  {w:"sunt", type:"verb", conj:"irr", temps:"Présent actif", pers:"3pl", trad:"ils sont"},
+  {w:"fui", type:"verb", conj:"irr", temps:"Parfait", pers:"1sg", trad:"je fus / j'ai été"},
+  {w:"absum", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je suis absent"},
+  {w:"pereo", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je péris"}
+];
+
+let wordIdx = 0;
+
+function buildIdForm() {
+  const f = document.getElementById('idForm');
+  const w = WORDS[wordIdx];
+  const isVerb = w.type === 'verb';
+
+  if (!isVerb) {
+    f.innerHTML = '<div class="id-group"><label class="group-title">Déclinaison</label><div class="checkbox-grid">' +
+      ['D1','D2','D3-pari','D3-impari'].map(d => '<label class="check-item"><input type="radio" name="decl" value="' + d + '"> ' + d + '</label>').join('') +
+      '</div></div><div class="id-group"><label class="group-title">Genre</label><div class="checkbox-grid">' +
+      ['M','F','N','F/M'].map(g => '<label class="check-item"><input type="radio" name="genre" value="' + g + '"> ' + g + '</label>').join('') +
+      '</div></div><div class="id-group"><label class="group-title">Cas</label><div class="checkbox-grid">' +
+      ['Nom.','Voc.','Acc.','Gén.','Dat.','Abl.'].map(c => '<label class="check-item"><input type="radio" name="cas" value="' + c + '"> ' + c + '</label>').join('') +
+      '</div></div><div class="id-group"><label class="group-title">Nombre</label><div class="checkbox-grid">' +
+      '<label class="check-item"><input type="radio" name="nb" value="sg"> Singulier</label>' +
+      '<label class="check-item"><input type="radio" name="nb" value="pl"> Pluriel</label>' +
+      '</div></div><div class="id-group"><label class="group-title">Traduction</label>' +
+      '<input class="cell-input" id="id-trad-input" placeholder="Traduction..." style="width:100%" onkeydown="if(event.key===\'Enter\'){event.preventDefault();validerIdentification();}"></div>';
+  } else {
+    f.innerHTML = '<div class="id-group"><label class="group-title">Conjugaison</label><div class="checkbox-grid">' +
+      ['1','2','3','4','irr'].map(c => '<label class="check-item"><input type="radio" name="conj" value="' + c + '"> ' + (c==='irr'?'Irrégulier':c+'ère/ème') + '</label>').join('') +
+      '</div></div><div class="id-group"><label class="group-title">Temps</label><div class="checkbox-grid">' +
+      ['Présent actif','Parfait','Plus-que-parfait','Passif présent','Passif parfait'].map(t => '<label class="check-item"><input type="radio" name="temps" value="' + t + '"> ' + t + '</label>').join('') +
+      '</div></div><div class="id-group"><label class="group-title">Personne</label><div class="checkbox-grid">' +
+      ['1sg','2sg','3sg','1pl','2pl','3pl'].map(p => '<label class="check-item"><input type="radio" name="pers" value="' + p + '"> ' + p + '</label>').join('') +
+      '</div></div><div class="id-group"><label class="group-title">Traduction</label>' +
+      '<input class="cell-input" id="id-trad-input" placeholder="Traduction..." style="width:100%" onkeydown="if(event.key===\'Enter\'){event.preventDefault();validerIdentification();}"></div>';
+  }
+}
+
+function renderWord() {
+  const w = WORDS[wordIdx];
+  document.getElementById('idWord').textContent = w.w;
+  document.getElementById('idCounter').textContent = (wordIdx + 1) + ' / ' + WORDS.length;
+}
+
+function nextWord() {
+  wordIdx = (wordIdx + 1) % WORDS.length;
+  renderWord();
+  buildIdForm();
+  hideFeedback('feedbackId');
+}
+
+function validerIdentification() {
+  const w = WORDS[wordIdx];
+  const isVerb = w.type === 'verb';
+  const errors = [], ok = [];
+
+  function check(name, expected, label) {
+    const el = document.querySelector('input[name="' + name + '"]:checked');
+    if (!el) { errors.push(label + ' non renseigné (attendu : ' + expected + ')'); return; }
+    if (norm(el.value) === norm(String(expected))) ok.push(label + ' ✓');
+    else errors.push(label + ' : ' + el.value + ' → ' + expected);
+  }
+
+  if (!isVerb) {
+    check('decl', w.decl, 'Déclinaison');
+    check('genre', w.genre === 'FM' ? 'F/M' : w.genre, 'Genre');
+    check('cas', w.cas, 'Cas');
+    check('nb', w.nb, 'Nombre');
+  } else {
+    check('conj', w.conj, 'Conjugaison');
+    check('temps', w.temps, 'Temps');
+    check('pers', w.pers, 'Personne');
+  }
+
+  const tinp = document.getElementById('id-trad-input');
+  tinp.classList.remove('correct','wrong');
+  if (!tinp.value.trim()) {
+    errors.push('Traduction non renseignée → ' + w.trad);
+  } else {
+    const userN = norm(tinp.value);
+    const refN = norm(w.trad);
+    const match = refN.split(/[,;\/]+/).some(part => {
+      const p = part.trim();
+      return userN === p || userN.includes(p) || p.includes(userN);
+    });
+    if (match) { ok.push('Traduction ✓'); tinp.classList.add('correct'); }
+    else { errors.push('Traduction : "' + tinp.value + '" → ' + w.trad); tinp.classList.add('wrong'); }
+  }
+
+  const feedEl = document.getElementById('feedbackId');
+  feedEl.classList.remove('show','ok','err');
+  if (!errors.length) {
+    feedEl.innerHTML = '✓ ' + ok.join(' · ');
+    feedEl.classList.add('ok','show');
+  } else {
+    feedEl.innerHTML = '<strong>' + ok.length + ' / ' + (ok.length + errors.length) + ' correct' + (ok.length > 1 ? 's' : '') + '</strong><br>' +
+      errors.map(e => '→ ' + e).join('<br>');
+    feedEl.classList.add('err','show');
+  }
+}
+
+function reinitIdentification() {
+  wordIdx = 0;
+  renderWord();
+  buildIdForm();
+  hideFeedback('feedbackId');
+}
+
+const PHRASES = [
+  {latin: "Rosa in horto pulchra est.", trad: "La rose dans le jardin est belle.", lex: [{w:"rosa", t:"rose — F, D1, nom. sg"},{w:"in", t:"dans — prép. + abl."},{w:"horto", t:"jardin — M, D2, abl. sg"},{w:"pulchra", t:"belle — adj."},{w:"est", t:"est — esse, 3sg"}]},
+  {latin: "Dominus servum laudat.", trad: "Le maître loue l'esclave.", lex: [{w:"dominus", t:"maître — M, D2, nom. sg"},{w:"servum", t:"esclave — M, D2, acc. sg"},{w:"laudat", t:"loue — laudare, 3sg"}]},
+  {latin: "Consul ciues defendit.", trad: "Le consul défend les citoyens.", lex: [{w:"consul", t:"consul — M, D3-impari, nom. sg"},{w:"ciues", t:"citoyens — M, D3-pari, acc. pl"},{w:"defendit", t:"défend — defendere, 3sg"}]},
+  {latin: "Milites in urbem intrauerunt.", trad: "Les soldats entrèrent dans la ville.", lex: [{w:"milites", t:"soldats — M, D3-impari, nom. pl"},{w:"urbem", t:"ville — F, D3-impari, acc. sg"},{w:"intrauerunt", t:"entrèrent — intrare, 3pl parf."}]},
+  {latin: "Mater filios suos amat.", trad: "La mère aime ses fils.", lex: [{w:"mater", t:"mère — F, D3-impari, nom. sg"},{w:"filios", t:"fils — M, D2, acc. pl"},{w:"suos", t:"ses — pron. poss."},{w:"amat", t:"aime — amare, 3sg"}]},
+  {latin: "Sol terram illuminat.", trad: "Le soleil illumine la terre.", lex: [{w:"sol", t:"soleil — M, D3-impari, nom. sg"},{w:"terram", t:"terre — F, D1, acc. sg"},{w:"illuminat", t:"illumine — illuminare, 3sg"}]},
+  {latin: "Bellum longum erat.", trad: "La guerre était longue.", lex: [{w:"bellum", t:"guerre — N, D2, nom. sg"},{w:"longum", t:"long — adj."},{w:"erat", t:"était — esse, 3sg imparf."}]},
+  {latin: "Pater ad flumen ambulat.", trad: "Le père marche vers le fleuve.", lex: [{w:"pater", t:"père — M, D3-impari"},{w:"ad", t:"vers — prép. + acc."},{w:"flumen", t:"fleuve — N, D3-impari"},{w:"ambulat", t:"marche — ambulare, 3sg"}]},
+  {latin: "Arma virumque cano.", trad: "Je chante les armes et l'homme.", lex: [{w:"arma", t:"armes — N, D2, acc. pl"},{w:"virum", t:"homme — M, D2, acc. sg"},{w:"que", t:"et — conj."},{w:"cano", t:"je chante — canere, 1sg"}]},
+  {latin: "Iniuria magna est.", trad: "Le tort est grand.", lex: [{w:"iniuria", t:"tort — F, D1"},{w:"magna", t:"grand — adj."},{w:"est", t:"est — esse, 3sg"}]},
+  {latin: "Hostes urbem petunt.", trad: "Les ennemis cherchent la ville.", lex: [{w:"hostes", t:"ennemis — M, D3-pari"},{w:"urbem", t:"ville — F, D3-impari, acc."},{w:"petunt", t:"cherchent — petere, 3pl"}]},
+  {latin: "Patria mea cara est.", trad: "Ma patrie est chère.", lex: [{w:"patria", t:"patrie — F, D1"},{w:"mea", t:"ma — pron. poss."},{w:"cara", t:"chère — adj."},{w:"est", t:"est — esse, 3sg"}]},
+  {latin: "Dux exercitum tradit.", trad: "Le chef livre l'armée.", lex: [{w:"dux", t:"chef — M, D3-impari"},{w:"exercitum", t:"armée — M, D4, acc."},{w:"tradit", t:"livre — tradere, 3sg"}]},
+  {latin: "Classis magna in mari est.", trad: "La grande flotte est en mer.", lex: [{w:"classis", t:"flotte — F, D3-pari"},{w:"magna", t:"grande — adj."},{w:"mari", t:"mer — N, D3-pari, abl."},{w:"est", t:"est — esse, 3sg"}]},
+  {latin: "Deus homines amat.", trad: "Le dieu aime les hommes.", lex: [{w:"deus", t:"dieu — M, D2"},{w:"homines", t:"hommes — M, D3-impari, acc. pl"},{w:"amat", t:"aime — amare, 3sg"}]},
+  {latin: "Fatum crudele est.", trad: "Le destin est cruel.", lex: [{w:"fatum", t:"destin — N, D2"},{w:"crudele", t:"cruel — adj."},{w:"est", t:"est — esse, 3sg"}]},
+  {latin: "Flamma urbem consumit.", trad: "La flamme consume la ville.", lex: [{w:"flamma", t:"flamme — F, D1"},{w:"urbem", t:"ville — F, D3-impari, acc."},{w:"consumit", t:"consume — consumere, 3sg"}]},
+  {latin: "Genus humanum magnum est.", trad: "Le genre humain est grand.", lex: [{w:"genus", t:"genre — N, D3-impari"},{w:"humanum", t:"humain — adj."},{w:"magnum", t:"grand — adj."},{w:"est", t:"est — esse, 3sg"}]},
+  {latin: "Herba in agro crescit.", trad: "L'herbe pousse dans le champ.", lex: [{w:"herba", t:"herbe — F, D1"},{w:"agro", t:"champ — M, D2, abl."},{w:"crescit", t:"pousse — crescere, 3sg"}]},
+  {latin: "Hospes domum intrat.", trad: "L'hôte entre dans la maison.", lex: [{w:"hospes", t:"hôte — M, D3-impari"},{w:"domum", t:"maison — F, D4, acc."},{w:"intrat", t:"entre — intrare, 3sg"}]},
+  {latin: "Litus maris pulchrum est.", trad: "Le rivage de la mer est beau.", lex: [{w:"litus", t:"rivage — N, D3-impari"},{w:"maris", t:"mer — N, D3-pari, gén."},{w:"pulchrum", t:"beau — adj."},{w:"est", t:"est — esse, 3sg"}]},
+  {latin: "Locus sacer est.", trad: "Le lieu est sacré.", lex: [{w:"locus", t:"lieu — M, D2"},{w:"sacer", t:"sacré — adj."},{w:"est", t:"est — esse, 3sg"}]},
+  {latin: "Moenia urbis alta sunt.", trad: "Les remparts de la ville sont hauts.", lex: [{w:"moenia", t:"remparts — N, D3-pari, nom. pl"},{w:"urbis", t:"ville — F, D3-impari, gén."},{w:"alta", t:"hauts — adj."},{w:"sunt", t:"sont — esse, 3pl"}]},
+  {latin: "Nomen tuum clarum est.", trad: "Ton nom est illustre.", lex: [{w:"nomen", t:"nom — N, D3-impari"},{w:"tuum", t:"ton — pron. poss."},{w:"clarum", t:"illustre — adj."},{w:"est", t:"est — esse, 3sg"}]},
+  {latin: "Pax melior est quam bellum.", trad: "La paix est meilleure que la guerre.", lex: [{w:"pax", t:"paix — F, D3-impari"},{w:"melior", t:"meilleure — adj. comp."},{w:"quam", t:"que — conj."},{w:"bellum", t:"guerre — N, D2"}]},
+  {latin: "Tellus fecunda est.", trad: "La terre est féconde.", lex: [{w:"tellus", t:"terre — F, D3-impari"},{w:"fecunda", t:"féconde — adj."},{w:"est", t:"est — esse, 3sg"}]},
+  {latin: "Iuvenis fortis pugnat.", trad: "Le jeune homme brave combat.", lex: [{w:"iuvenis", t:"jeune homme — M, D3-pari"},{w:"fortis", t:"brave — adj."},{w:"pugnat", t:"combat — pugnare, 3sg"}]},
+  {latin: "Senex sapiens consilium dat.", trad: "Le vieillard sage donne un conseil.", lex: [{w:"senex", t:"vieillard — M, D3-pari"},{w:"sapiens", t:"sage — adj."},{w:"consilium", t:"conseil — N, D2, acc."},{w:"dat", t:"donne — dare, 3sg"}]},
+  {latin: "Canis dominum sequitur.", trad: "Le chien suit le maître.", lex: [{w:"canis", t:"chien — M, D3-pari"},{w:"dominum", t:"maître — M, D2, acc."},{w:"sequitur", t:"suit — sequi, 3sg dép."}]},
+  {latin: "Frater cum sorore ambulat.", trad: "Le frère marche avec sa sœur.", lex: [{w:"frater", t:"frère — M, D3-impari"},{w:"cum", t:"avec — prép. + abl."},{w:"sorore", t:"sœur — F, D3-impari, abl."},{w:"ambulat", t:"marche — ambulare, 3sg"}]}
+];
+
+let phraseIdx = 0;
+
+function renderPhrase() {
+  const p = PHRASES[phraseIdx];
+  document.getElementById('tradPhrase').textContent = p.latin;
+  document.getElementById('tradCounter').textContent = 'Phrase ' + (phraseIdx + 1) + ' / ' + PHRASES.length;
+  const inp = document.getElementById('tradInput');
+  inp.value = '';
+  inp.classList.remove('correct','wrong');
+  document.getElementById('tradCorrection').classList.remove('show');
+  buildLexique(p.lex);
+}
+
+function buildLexique(lex) {
+  const el = document.getElementById('lexique');
+  el.innerHTML = '<div class="lexique-header">Lexique</div>';
+  lex.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'lex-item';
+    div.innerHTML = '<div class="lex-trigger"><span class="lex-word">' + item.w + '</span><span class="lex-arrow">▶</span></div><div class="lex-details">' + item.t + '</div>';
+    div.querySelector('.lex-trigger').addEventListener('click', () => {
+      div.classList.toggle('open');
+    });
+    el.appendChild(div);
+  });
+}
+
+function validerTrad() {
+  const p = PHRASES[phraseIdx];
+  const inp = document.getElementById('tradInput');
+  const corr = document.getElementById('tradCorrection');
+  document.getElementById('tradCorrText').textContent = p.trad;
+  corr.classList.add('show');
+  const userNorm = norm(inp.value);
+  const refNorm = norm(p.trad);
+  if (userNorm.length > 4) {
+    const userWords = userNorm.split(/\s+/);
+    const refWords = refNorm.split(/\s+/);
+    const matches = userWords.filter(w => refWords.includes(w)).length;
+    const ratio = matches / Math.max(refWords.length, 1);
+    inp.classList.remove('correct','wrong');
+    inp.classList.add(ratio >= 0.6 ? 'correct' : 'wrong');
+  }
+}
+
+function reinitTrad() {
+  const inp = document.getElementById('tradInput');
+  inp.value = '';
+  inp.classList.remove('correct','wrong');
+  document.getElementById('tradCorrection').classList.remove('show');
+}
+
+function nextPhrase() {
+  phraseIdx = (phraseIdx + 1) % PHRASES.length;
+  renderPhrase();
+}
+
+const CONJ_VERBS = [
+  {goffiot:"amo, as, are, aui, atum", conj:"1", trad:"aimer"},
+  {goffiot:"laudo, as, are, aui, atum", conj:"1", trad:"louer"},
+  {goffiot:"specto, as, are, aui, atum", conj:"1", trad:"regarder"},
+  {goffiot:"incolo, as, are, aui, atum", conj:"1", trad:"habiter"},
+  {goffiot:"uulnero, as, are, aui, atum", conj:"1", trad:"blesser"},
+  {goffiot:"impero, as, are, aui, atum", conj:"1", trad:"commander"},
+  {goffiot:"puto, as, are, aui, atum", conj:"1", trad:"penser"},
+  {goffiot:"agito, as, are, aui, atum", conj:"1", trad:"agiter"},
+  {goffiot:"video, es, ere, vidi, visum", conj:"2", trad:"voir"},
+  {goffiot:"habeo, es, ere, habui, habitum", conj:"2", trad:"avoir"},
+  {goffiot:"moneo, es, ere, monui, monitum", conj:"2", trad:"avertir"},
+  {goffiot:"timeo, es, ere, timui", conj:"2", trad:"craindre"},
+  {goffiot:"dico, is, ere, dixi, dictum", conj:"3", trad:"dire"},
+  {goffiot:"scribo, is, ere, scripsi, scriptum", conj:"3", trad:"écrire"},
+  {goffiot:"lego, is, ere, legi, lectum", conj:"3", trad:"lire"},
+  {goffiot:"mitto, is, ere, misi, missum", conj:"3", trad:"envoyer"},
+  {goffiot:"capio, is, ere, cepi, captum", conj:"3", trad:"prendre"},
+  {goffiot:"duco, is, ere, duxi, ductum", conj:"3", trad:"mener"},
+  {goffiot:"gero, is, ere, gessi, gestum", conj:"3", trad:"faire"},
+  {goffiot:"accipio, is, ere, cepi, ceptum", conj:"3", trad:"recevoir"},
+  {goffiot:"occido, is, ere, cidi, cisum", conj:"3", trad:"tuer"},
+  {goffiot:"peto, is, ere, iui, itum", conj:"3", trad:"demander"},
+  {goffiot:"posco, is, ere, poposci", conj:"3", trad:"réclamer"},
+  {goffiot:"trado, is, ere, tradidi, traditum", conj:"3", trad:"livrer"},
+  {goffiot:"pono, is, ere, posui, positum", conj:"3", trad:"placer"},
+  {goffiot:"adicio, is, ere, adieci, adiectum", conj:"3", trad:"ajouter"},
+  {goffiot:"venio, is, ire, veni, ventum", conj:"4", trad:"venir"},
+  {goffiot:"audio, is, ire, audivi, auditum", conj:"4", trad:"entendre"},
+  {goffiot:"invenio, is, ire, inveni, inventum", conj:"4", trad:"trouver"},
+  {goffiot:"aperio, is, ire, aperui, apertum", conj:"4", trad:"ouvrir"},
+  {goffiot:"sum, es, esse, fui", conj:"irr", trad:"être"},
+  {goffiot:"absum, es, esse, afui", conj:"irr", trad:"être absent"},
+  {goffiot:"pereo, is, ire, ii, itum", conj:"irr", trad:"périr"},
+  {goffiot:"possum, potes, posse, potui", conj:"irr", trad:"pouvoir"},
+  {goffiot:"volo, vis, velle, volui", conj:"irr", trad:"vouloir"},
+  {goffiot:"fero, fers, ferre, tuli, latum", conj:"irr", trad:"porter"},
+  {goffiot:"affero, fers, ferre, attuli, allatum", conj:"irr", trad:"apporter"},
+  {goffiot:"eo, is, ire, ii, itum", conj:"irr", trad:"aller"}
+];
+
+let conjIdx = 0;
+
+function renderConjVerb() {
+  const v = CONJ_VERBS[conjIdx];
+  document.getElementById('conjVerb').textContent = v.goffiot;
+  document.getElementById('conjCounter').textContent = (conjIdx + 1) + ' / ' + CONJ_VERBS.length;
+}
+
+function nextConjVerb() {
+  conjIdx = (conjIdx + 1) % CONJ_VERBS.length;
+  renderConjVerb();
+  document.querySelectorAll('input[name="conjGroup"]').forEach(inp => inp.checked = false);
+  hideFeedback('feedbackConj');
+}
+
+function validerConjGroup() {
+  const v = CONJ_VERBS[conjIdx];
+  const el = document.querySelector('input[name="conjGroup"]:checked');
+  const feedEl = document.getElementById('feedbackConj');
+  feedEl.classList.remove('show','ok','err');
+  
+  if (!el) {
+    feedEl.innerHTML = 'Veuillez sélectionner une conjugaison.';
+    feedEl.classList.add('err','show');
+    return;
+  }
+  
+  if (el.value === v.conj) {
+    const conjLabel = v.conj === 'irr' ? 'irrégulier' : v.conj + 'ère/ème conjugaison';
+    feedEl.innerHTML = '✓ Correct ! "' + v.goffiot + '" appartient au groupe ' + conjLabel;
+    feedEl.classList.add('ok','show');
+  } else {
+    const conjLabel = v.conj === 'irr' ? 'irrégulier' : v.conj + 'ère/ème conjugaison';
+    feedEl.innerHTML = 'Incorrect. "' + v.goffiot + '" appartient au groupe ' + conjLabel;
+    feedEl.classList.add('err','show');
+  }
+}
+
+function reinitConjGroup() {
+  conjIdx = 0;
+  renderConjVerb();
+  document.querySelectorAll('input[name="conjGroup"]').forEach(inp => inp.checked = false);
+  hideFeedback('feedbackConj');
+}
+
+function showFeedback(id, correct, total, msg) {
+  const el = document.getElementById(id);
+  el.classList.remove('ok','err');
+  if (msg !== undefined && msg !== null) {
+    el.innerHTML = msg;
+    el.classList.add(correct === total ? 'ok' : 'err');
+  } else {
+    const all = correct === total;
+    el.textContent = all
+      ? '✓ Parfait — ' + correct + '/' + total + ' correct' + (correct > 1 ? 's' : '')
+      : correct + '/' + total + ' correct' + (correct > 1 ? 's' : '') + ' — voir corrections ci-dessous';
+    el.classList.add(all ? 'ok' : 'err');
+  }
+  el.classList.add('show');
+}
+
+function hideFeedback(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('show','ok','err');
+}
+
+buildSubTabs();
+renderTable();
+buildIdForm();
+renderWord();
+renderPhrase();
+renderConjVerb();
+</script>
+</body>
+</html>

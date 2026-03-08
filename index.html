@@ -247,20 +247,216 @@
     color: var(--text); margin-bottom: .8rem; line-height: 1.4;
   }
   
-  /* MOBILE */
-  body[data-device="mobile"] main { padding: 1rem; }
+  /* MOBILE - Optimisé pour 2532x1170px */
+  body[data-device="mobile"] {
+    font-size: 14px;
+  }
+  body[data-device="mobile"] main { 
+    padding: .8rem;
+    max-width: 100%;
+  }
   body[data-device="mobile"] .id-layout,
-  body[data-device="mobile"] .trad-layout { grid-template-columns: 1fr; }
-  body[data-device="mobile"] header { padding: 0 1rem; height: 48px; }
-  body[data-device="mobile"] nav { padding: 0 .5rem; }
-  body[data-device="mobile"] .tab-btn { padding: .65rem .65rem; font-size: .55rem; }
-  body[data-device="mobile"] .logo { font-size: .9rem; }
-  body[data-device="mobile"] .word-latin { font-size: clamp(1.4rem, 5vw, 2rem); }
-  body[data-device="mobile"] .phrase-latin { font-size: 1.1rem; }
-  body[data-device="mobile"] .action-bar { gap: .4rem; }
+  body[data-device="mobile"] .trad-layout { 
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  body[data-device="mobile"] header { 
+    padding: 0 .8rem; 
+    height: 50px;
+  }
+  body[data-device="mobile"] .logo { 
+    font-size: .85rem;
+    letter-spacing: .2em;
+  }
+  body[data-device="mobile"] .theme-btn {
+    width: 32px;
+    height: 32px;
+    font-size: .8rem;
+  }
+  body[data-device="mobile"] nav { 
+    padding: 0 .5rem;
+    gap: 1px;
+  }
+  body[data-device="mobile"] .tab-btn { 
+    padding: .65rem .6rem; 
+    font-size: .5rem;
+    letter-spacing: .12em;
+  }
+  body[data-device="mobile"] .sub-tabs {
+    gap: 4px;
+    margin-bottom: 1rem;
+  }
+  body[data-device="mobile"] .sub-btn {
+    padding: .35rem .65rem;
+    font-size: .5rem;
+    letter-spacing: .08em;
+  }
+  body[data-device="mobile"] .card {
+    margin-bottom: 1rem;
+  }
+  body[data-device="mobile"] .card-header {
+    font-size: .52rem;
+    padding: .6rem .8rem;
+  }
+  
+  /* TABLEAUX MOBILE - Optimisation critique */
+  body[data-device="mobile"] table {
+    font-size: .72rem;
+    width: 100%;
+  }
+  body[data-device="mobile"] th {
+    font-size: .48rem;
+    padding: .4rem .35rem;
+    letter-spacing: .08em;
+  }
+  body[data-device="mobile"] td {
+    padding: .35rem .35rem;
+  }
+  body[data-device="mobile"] .row-label {
+    font-size: .48rem;
+    letter-spacing: .06em;
+  }
+  body[data-device="mobile"] .cell-input {
+    font-size: .72rem;
+    min-width: 50px;
+    padding: .25rem .35rem;
+  }
+  body[data-device="mobile"] .correction-text {
+    font-size: .5rem;
+    margin-top: 2px;
+  }
+  body[data-device="mobile"] .static-cell {
+    font-size: .72rem;
+  }
+  
+  /* Tables avec beaucoup de colonnes - rotation pour mobile */
+  body[data-device="mobile"] table.wide-table {
+    display: block;
+    overflow-x: auto;
+  }
+  body[data-device="mobile"] table.wide-table thead,
+  body[data-device="mobile"] table.wide-table tbody,
+  body[data-device="mobile"] table.wide-table tr {
+    display: block;
+  }
+  body[data-device="mobile"] table.wide-table th,
+  body[data-device="mobile"] table.wide-table td {
+    display: inline-block;
+    min-width: 70px;
+  }
+  body[data-device="mobile"] table.wide-table .row-label {
+    min-width: 90px;
+    font-weight: 600;
+  }
+  
+  /* IDENTIFICATION MOBILE */
+  body[data-device="mobile"] .word-display {
+    padding: 1.5rem 1rem;
+  }
+  body[data-device="mobile"] .word-latin {
+    font-size: clamp(1.5rem, 6vw, 2.2rem);
+  }
+  body[data-device="mobile"] .word-counter {
+    font-size: .52rem;
+    margin-top: .5rem;
+  }
+  body[data-device="mobile"] .id-form-card {
+    padding: 1rem;
+    gap: .9rem;
+  }
+  body[data-device="mobile"] .id-group label.group-title {
+    font-size: .52rem;
+  }
+  body[data-device="mobile"] .checkbox-grid {
+    gap: .35rem .55rem;
+  }
+  body[data-device="mobile"] .check-item {
+    font-size: .6rem;
+  }
+  body[data-device="mobile"] .check-item input[type=checkbox], 
+  body[data-device="mobile"] .check-item input[type=radio] {
+    width: 13px;
+    height: 13px;
+  }
+  
+  /* TRADUCTION MOBILE */
+  body[data-device="mobile"] .trad-left {
+    padding: 1rem;
+  }
+  body[data-device="mobile"] .phrase-counter {
+    font-size: .52rem;
+  }
+  body[data-device="mobile"] .phrase-latin {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding-bottom: .8rem;
+  }
+  body[data-device="mobile"] .trad-textarea {
+    font-size: .85rem;
+    min-height: 80px;
+    padding: .6rem .75rem;
+  }
+  body[data-device="mobile"] .correction-label {
+    font-size: .52rem;
+  }
+  body[data-device="mobile"] .correction-text-trad {
+    font-size: .85rem;
+  }
+  body[data-device="mobile"] .lexique-header {
+    font-size: .52rem;
+    padding: .6rem .8rem;
+  }
+  body[data-device="mobile"] .lex-word {
+    font-size: .8rem;
+  }
+  body[data-device="mobile"] .lex-details {
+    font-size: .55rem;
+    padding: .4rem .8rem .55rem .8rem;
+  }
+  body[data-device="mobile"] .lex-trigger {
+    padding: .45rem .8rem;
+  }
+  
+  /* CONJUGAISON MOBILE */
+  body[data-device="mobile"] .conj-display {
+    padding: 1.5rem 1rem;
+  }
+  body[data-device="mobile"] .conj-goffiot {
+    font-size: clamp(1rem, 3.5vw, 1.4rem);
+  }
+  
+  /* ACTIONS MOBILE */
+  body[data-device="mobile"] .action-bar { 
+    gap: .5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    flex-wrap: wrap;
+  }
   body[data-device="mobile"] .btn-primary,
   body[data-device="mobile"] .btn-ghost,
-  body[data-device="mobile"] .nav-word-btn { padding: .5rem 1rem; font-size: .55rem; }
+  body[data-device="mobile"] .nav-word-btn { 
+    padding: .5rem 1.1rem; 
+    font-size: .52rem;
+    letter-spacing: .1em;
+  }
+  
+  /* FEEDBACK MOBILE */
+  body[data-device="mobile"] .feedback {
+    font-size: .55rem;
+    padding: .6rem .8rem;
+    line-height: 1.7;
+  }
+  
+  /* Ajustements spécifiques pour garantir la visibilité des tableaux */
+  @media (max-width: 768px) {
+    body[data-device="mobile"] .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 -.8rem;
+      padding: 0 .8rem;
+    }
+  }
   
   ::-webkit-scrollbar { width: 4px; height: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -381,6 +577,8 @@ function selectDevice(device) {
   w.classList.add('hidden');
   setTimeout(() => { w.style.display = 'none'; }, 450);
   document.getElementById('app').classList.add('visible');
+  // Re-render le tableau actuel pour appliquer les optimisations mobile
+  renderTable();
 }
 
 function toggleTheme() {
@@ -538,7 +736,11 @@ function norm(s) {
 function renderTable() {
   const t = TABLES[currentTable];
   document.getElementById('tableTitle').textContent = t.title;
-  let html = '<table><thead><tr>';
+  const isMobile = document.body.dataset.device === 'mobile';
+  const isWideTable = t.headers.length > 5;
+  const tableClass = (isMobile && isWideTable) ? ' class="wide-table"' : '';
+  
+  let html = '<table' + tableClass + '><thead><tr>';
   t.headers.forEach(h => { html += '<th>' + h + '</th>'; });
   html += '</tr></thead><tbody>';
   t.rows.forEach((row, ri) => {

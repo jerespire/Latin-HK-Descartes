@@ -114,7 +114,8 @@
     background: color-mix(in srgb, var(--err) 6%, var(--input));
   }
   .correction-text {
-    font-family: var(--mono); font-size: .58rem; color: var(--err); margin-top: 3px; display: block;
+    font-family: var(--mono); font-size: .58rem; color: var(--ok); margin-top: 3px; display: block;
+    font-weight: 600;
   }
   .action-bar {
     display: flex; gap: .6rem; align-items: center; margin-top: 1.5rem; padding-top: 1.2rem;
@@ -137,12 +138,27 @@
   }
   .feedback.show { display: block; }
   .feedback.ok {
-    background: color-mix(in srgb, var(--ok) 10%, var(--card)); color: var(--ok);
-    border: 1.5px solid color-mix(in srgb, var(--ok) 30%, var(--border));
+    background: color-mix(in srgb, var(--ok) 15%, var(--card)); 
+    color: var(--ok);
+    border: 2px solid var(--ok);
+    font-weight: 600;
   }
   .feedback.err {
-    background: color-mix(in srgb, var(--err) 10%, var(--card)); color: var(--err);
-    border: 1.5px solid color-mix(in srgb, var(--err) 30%, var(--border));
+    background: var(--card);
+    color: var(--text);
+    border: 1.5px solid var(--border);
+  }
+  .feedback.err strong {
+    color: var(--ok);
+    font-weight: 600;
+  }
+  .feedback-correct {
+    color: var(--ok);
+    font-weight: 600;
+  }
+  .feedback-incorrect {
+    color: var(--err);
+    font-weight: 500;
   }
   .id-layout { display: grid; grid-template-columns: 260px 1fr; gap: 1.5rem; align-items: start; }
   .word-display {
@@ -362,6 +378,7 @@
   }
   body[data-device="mobile"] .correction-text {
     font-size: .56rem;
+    font-weight: 600;
   }
   body[data-device="mobile"] .conj-display {
     padding: 1.8rem 1.2rem;
@@ -975,9 +992,9 @@ function validerIdentification() {
 
   function check(name, expected, label) {
     const el = document.querySelector('input[name="' + name + '"]:checked');
-    if (!el) { errors.push(label + ' non renseigné (attendu : ' + expected + ')'); return; }
-    if (norm(el.value) === norm(String(expected))) ok.push(label + ' ✓');
-    else errors.push(label + ' : ' + el.value + ' → ' + expected);
+    if (!el) { errors.push(label + ' non renseigné (attendu : <span class="feedback-correct">' + expected + '</span>)'); return; }
+    if (norm(el.value) === norm(String(expected))) ok.push(label);
+    else errors.push(label + ' : ' + el.value + ' → <span class="feedback-correct">' + expected + '</span>');
   }
 
   if (!isVerb) {
@@ -994,7 +1011,7 @@ function validerIdentification() {
   const tinp = document.getElementById('id-trad-input');
   tinp.classList.remove('correct','wrong');
   if (!tinp.value.trim()) {
-    errors.push('Traduction non renseignée → ' + w.trad);
+    errors.push('Traduction non renseignée → <span class="feedback-correct">' + w.trad + '</span>');
   } else {
     const userN = norm(tinp.value);
     const refN = norm(w.trad);
@@ -1002,18 +1019,18 @@ function validerIdentification() {
       const p = part.trim();
       return userN === p || userN.includes(p) || p.includes(userN);
     });
-    if (match) { ok.push('Traduction ✓'); tinp.classList.add('correct'); }
-    else { errors.push('Traduction : "' + tinp.value + '" → ' + w.trad); tinp.classList.add('wrong'); }
+    if (match) { ok.push('Traduction'); tinp.classList.add('correct'); }
+    else { errors.push('Traduction : "' + tinp.value + '" → <span class="feedback-correct">' + w.trad + '</span>'); tinp.classList.add('wrong'); }
   }
 
   const feedEl = document.getElementById('feedbackId');
   feedEl.classList.remove('show','ok','err');
   if (!errors.length) {
-    feedEl.innerHTML = '✓ ' + ok.join(' · ');
+    feedEl.innerHTML = '<strong>✓ PARFAIT !</strong> Toutes les réponses sont correctes : ' + ok.join(', ');
     feedEl.classList.add('ok','show');
   } else {
-    feedEl.innerHTML = '<strong>' + ok.length + ' / ' + (ok.length + errors.length) + ' correct' + (ok.length > 1 ? 's' : '') + '</strong><br>' +
-      errors.map(e => '→ ' + e).join('<br>');
+    const okText = ok.length > 0 ? '<strong class="feedback-correct">✓ Correct (' + ok.length + '/' + (ok.length + errors.length) + ') : ' + ok.join(', ') + '</strong><br><br>' : '';
+    feedEl.innerHTML = okText + errors.map(e => '→ ' + e).join('<br>');
     feedEl.classList.add('err','show');
   }
 }
@@ -1223,11 +1240,11 @@ function validerConjGroup() {
   
   if (el.value === v.conj) {
     const conjLabel = v.conj === 'irr' ? 'irrégulier' : v.conj + 'ère/ème conjugaison';
-    feedEl.innerHTML = '✓ Correct ! "' + v.goffiot + '" appartient au groupe ' + conjLabel;
+    feedEl.innerHTML = '<strong>✓ CORRECT !</strong> "' + v.goffiot + '" appartient bien au groupe <strong>' + conjLabel + '</strong>';
     feedEl.classList.add('ok','show');
   } else {
     const conjLabel = v.conj === 'irr' ? 'irrégulier' : v.conj + 'ère/ème conjugaison';
-    feedEl.innerHTML = 'Incorrect. "' + v.goffiot + '" appartient au groupe ' + conjLabel;
+    feedEl.innerHTML = 'Incorrect. "' + v.goffiot + '" appartient au groupe <span class="feedback-correct">' + conjLabel + '</span>';
     feedEl.classList.add('err','show');
   }
 }
@@ -1248,9 +1265,11 @@ function showFeedback(id, correct, total, msg) {
     el.classList.add(correct === total ? 'ok' : 'err');
   } else {
     const all = correct === total;
-    el.textContent = all
-      ? '✓ Parfait — ' + correct + '/' + total + ' correct' + (correct > 1 ? 's' : '')
-      : correct + '/' + total + ' correct' + (correct > 1 ? 's' : '') + ' — voir corrections ci-dessous';
+    if (all) {
+      el.innerHTML = '<strong>✓ PARFAIT !</strong> ' + correct + '/' + total + ' — Toutes les réponses sont correctes !';
+    } else {
+      el.innerHTML = '<strong class="feedback-correct">✓ ' + correct + '/' + total + ' correct' + (correct > 1 ? 's' : '') + '</strong><br>Les corrections sont affichées en vert sous les cases incorrectes';
+    }
     el.classList.add(all ? 'ok' : 'err');
   }
   el.classList.add('show');

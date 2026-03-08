@@ -239,12 +239,167 @@
     font-family: var(--serif); font-size: clamp(1.2rem, 3vw, 1.8rem); font-style: italic;
     color: var(--text); margin-bottom: .8rem; line-height: 1.4;
   }
-  body[data-device="mobile"] main { padding: 1rem; }
+  
+  /* Mobile adaptations - Optimisé pour 2532x1170px (iPhone) */
+  body[data-device="mobile"] {
+    font-size: 15px;
+  }
+  body[data-device="mobile"] main { 
+    padding: 1.2rem; 
+    max-width: 100%;
+  }
   body[data-device="mobile"] .id-layout,
-  body[data-device="mobile"] .trad-layout { grid-template-columns: 1fr; }
-  body[data-device="mobile"] header { padding: 0 1rem; }
-  body[data-device="mobile"] nav { padding: 0 .5rem; }
-  body[data-device="mobile"] .tab-btn { padding: .75rem .75rem; }
+  body[data-device="mobile"] .trad-layout { 
+    grid-template-columns: 1fr; 
+    gap: 1.2rem;
+  }
+  body[data-device="mobile"] header { 
+    padding: 0 1.2rem; 
+    height: 52px;
+  }
+  body[data-device="mobile"] .logo {
+    font-size: 1rem;
+    letter-spacing: .25em;
+  }
+  body[data-device="mobile"] .theme-btn {
+    width: 38px;
+    height: 38px;
+    font-size: .9rem;
+  }
+  body[data-device="mobile"] nav { 
+    padding: 0 .8rem; 
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 1px;
+  }
+  body[data-device="mobile"] .tab-btn { 
+    padding: .8rem .9rem; 
+    font-size: .58rem;
+    white-space: nowrap;
+    letter-spacing: .14em;
+  }
+  body[data-device="mobile"] .sub-tabs {
+    gap: 6px;
+  }
+  body[data-device="mobile"] .sub-btn {
+    padding: .4rem .85rem;
+    font-size: .55rem;
+  }
+  body[data-device="mobile"] .word-display {
+    padding: 1.8rem 1.2rem;
+  }
+  body[data-device="mobile"] .word-latin {
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+  }
+  body[data-device="mobile"] .word-counter {
+    font-size: .58rem;
+    margin-top: .6rem;
+  }
+  body[data-device="mobile"] .phrase-latin {
+    font-size: 1.2rem;
+    line-height: 1.7;
+  }
+  body[data-device="mobile"] .phrase-counter {
+    font-size: .58rem;
+  }
+  body[data-device="mobile"] .cell-input {
+    font-size: .9rem;
+    min-width: 70px;
+    padding: .35rem .65rem;
+  }
+  body[data-device="mobile"] .trad-textarea {
+    font-size: .92rem;
+    min-height: 90px;
+    padding: .7rem .85rem;
+  }
+  body[data-device="mobile"] th {
+    font-size: .52rem;
+    padding: .55rem .7rem;
+  }
+  body[data-device="mobile"] td {
+    padding: .45rem .7rem;
+  }
+  body[data-device="mobile"] .row-label {
+    font-size: .55rem;
+  }
+  body[data-device="mobile"] .card-header {
+    font-size: .56rem;
+    padding: .7rem 1.1rem;
+  }
+  body[data-device="mobile"] .id-form-card {
+    padding: 1.2rem;
+    gap: 1rem;
+  }
+  body[data-device="mobile"] .trad-left {
+    padding: 1.2rem;
+  }
+  body[data-device="mobile"] .id-group label.group-title {
+    font-size: .56rem;
+  }
+  body[data-device="mobile"] .check-item {
+    font-size: .62rem;
+  }
+  body[data-device="mobile"] .check-item input[type=checkbox], 
+  body[data-device="mobile"] .check-item input[type=radio] {
+    width: 14px;
+    height: 14px;
+  }
+  body[data-device="mobile"] .action-bar {
+    flex-wrap: wrap;
+    gap: .7rem;
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+  }
+  body[data-device="mobile"] .btn-primary,
+  body[data-device="mobile"] .btn-ghost,
+  body[data-device="mobile"] .nav-word-btn {
+    font-size: .57rem;
+    padding: .55rem 1.3rem;
+  }
+  body[data-device="mobile"] .feedback {
+    font-size: .58rem;
+    padding: .7rem 1rem;
+  }
+  body[data-device="mobile"] .correction-text {
+    font-size: .56rem;
+  }
+  body[data-device="mobile"] .conj-display {
+    padding: 1.8rem 1.2rem;
+  }
+  body[data-device="mobile"] .conj-goffiot {
+    font-size: clamp(1.1rem, 4vw, 1.6rem);
+  }
+  body[data-device="mobile"] .lexique-header {
+    font-size: .56rem;
+    padding: .7rem 1rem;
+  }
+  body[data-device="mobile"] .lex-word {
+    font-size: .88rem;
+  }
+  body[data-device="mobile"] .lex-details {
+    font-size: .58rem;
+    padding: .45rem 1rem .65rem 1rem;
+  }
+  body[data-device="mobile"] .correction-label {
+    font-size: .56rem;
+  }
+  body[data-device="mobile"] .correction-text-trad {
+    font-size: .92rem;
+  }
+  body[data-device="mobile"] .card {
+    margin-bottom: 1.2rem;
+  }
+  
+  /* Ajustements spécifiques pour écran étroit en portrait */
+  @media (max-width: 768px) and (orientation: portrait) {
+    body[data-device="mobile"] .checkbox-grid {
+      gap: .4rem .7rem;
+    }
+    body[data-device="mobile"] table {
+      font-size: .88rem;
+    }
+  }
+  
   ::-webkit-scrollbar { width: 4px; height: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -261,7 +416,7 @@
 
 <div id="app">
   <header>
-    <span class="logo">LAT<em>I</em>NA</span>
+    <span class="logo">LAT<em>I</em>N</span>
     <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Thème clair / sombre">☾</button>
   </header>
 
@@ -291,7 +446,7 @@
       <div class="id-layout">
         <div class="word-display">
           <div class="word-latin" id="idWord">—</div>
-          <span class="word-counter" id="idCounter">1 / 120</span>
+          <span class="word-counter" id="idCounter">1 / 148</span>
         </div>
         <div class="id-form-card" id="idForm"></div>
       </div>
@@ -305,7 +460,7 @@
     <div id="panel-traduction" class="panel">
       <div class="trad-layout">
         <div class="trad-left">
-          <div class="phrase-counter" id="tradCounter">Phrase 1 / 30</div>
+          <div class="phrase-counter" id="tradCounter">Phrase 1 / 55</div>
           <div class="phrase-latin" id="tradPhrase">—</div>
           <textarea class="trad-textarea" id="tradInput" placeholder="Votre traduction…"
             onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();validerTrad();}"></textarea>
@@ -382,6 +537,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
+// TABLEAUX avec pluriels sous singuliers
 const TABLES = [
   {title: "Génitif / Déclinaisons", headers: ["","D1","D2","D3"], rows: [
     {label:"Génitif", cells:[{v:"-ae",e:true},{v:"-i",e:true},{v:"-is",e:true}]},
@@ -410,29 +566,58 @@ const TABLES = [
     {label:"2pl", cells:[{v:"Amaveratis",e:true},{v:"vous aviez aimé",e:false}]},
     {label:"3pl", cells:[{v:"Amaverant",e:true},{v:"ils avaient aimé",e:false}]}
   ]},
-  {title: "Déclinaisons D1 & D2", headers: ["Cas","F sg","M sg","N sg","F pl","M pl","N pl"], rows: [
-    {label:"Nom.", cells:[{v:"Rosa",e:true},{v:"Dominus",e:true},{v:"Templum",e:true},{v:"Rosae",e:true},{v:"Domini",e:true},{v:"Templa",e:true}]},
-    {label:"Voc.", cells:[{v:"Rosa",e:true},{v:"Domine",e:true},{v:"Templum",e:true},{v:"Rosae",e:true},{v:"Domini",e:true},{v:"Templa",e:true}]},
-    {label:"Acc.", cells:[{v:"Rosam",e:true},{v:"Dominum",e:true},{v:"Templum",e:true},{v:"Rosas",e:true},{v:"Dominos",e:true},{v:"Templa",e:true}]},
-    {label:"Gén.", cells:[{v:"Rosae",e:true},{v:"Domini",e:true},{v:"Templi",e:true},{v:"Rosarum",e:true},{v:"Dominorum",e:true},{v:"Templorum",e:true}]},
-    {label:"Dat.", cells:[{v:"Rosae",e:true},{v:"Domino",e:true},{v:"Templo",e:true},{v:"Rosis",e:true},{v:"Dominis",e:true},{v:"Templis",e:true}]},
-    {label:"Abl.", cells:[{v:"Rosa",e:true},{v:"Domino",e:true},{v:"Templo",e:true},{v:"Rosis",e:true},{v:"Dominis",e:true},{v:"Templis",e:true}]}
+  {title: "Conjugaison de l'Imparfait", headers: ["Personne","Latin","Français"], rows: [
+    {label:"1sg", cells:[{v:"Amabam",e:true},{v:"j'aimais",e:false}]},
+    {label:"2sg", cells:[{v:"Amabas",e:true},{v:"tu aimais",e:false}]},
+    {label:"3sg", cells:[{v:"Amabat",e:true},{v:"il aimait",e:false}]},
+    {label:"1pl", cells:[{v:"Amabamus",e:true},{v:"nous aimions",e:false}]},
+    {label:"2pl", cells:[{v:"Amabatis",e:true},{v:"vous aimiez",e:false}]},
+    {label:"3pl", cells:[{v:"Amabant",e:true},{v:"ils aimaient",e:false}]}
   ]},
-  {title: "D3 : PARI", headers: ["Cas","F/M sg","N sg","F/M pl","N pl"], rows: [
-    {label:"Nom.", cells:[{v:"Civis",e:true},{v:"Mare",e:true},{v:"Cives",e:true},{v:"Maria",e:true}]},
-    {label:"Voc.", cells:[{v:"Civis",e:true},{v:"Mare",e:true},{v:"Cives",e:true},{v:"Maria",e:true}]},
-    {label:"Acc.", cells:[{v:"Civem",e:true},{v:"Mare",e:true},{v:"Cives",e:true},{v:"Maria",e:true}]},
-    {label:"Gén.", cells:[{v:"Civis",e:true},{v:"Maris",e:true},{v:"CivIUM",e:true},{v:"MarIUM",e:true}]},
-    {label:"Dat.", cells:[{v:"Civi",e:true},{v:"Mari",e:true},{v:"Civibus",e:true},{v:"Maribus",e:true}]},
-    {label:"Abl.", cells:[{v:"Cive",e:true},{v:"Mari",e:true},{v:"Civibus",e:true},{v:"Maribus",e:true}]}
+  // Tableau D1 & D2 REORGANISE: pluriels sous singuliers
+  {title: "Déclinaisons D1 & D2", headers: ["Cas","F","M","N"], rows: [
+    {label:"Nom. sg", cells:[{v:"Rosa",e:true},{v:"Dominus",e:true},{v:"Templum",e:true}]},
+    {label:"Nom. pl", cells:[{v:"Rosae",e:true},{v:"Domini",e:true},{v:"Templa",e:true}]},
+    {label:"Voc. sg", cells:[{v:"Rosa",e:true},{v:"Domine",e:true},{v:"Templum",e:true}]},
+    {label:"Voc. pl", cells:[{v:"Rosae",e:true},{v:"Domini",e:true},{v:"Templa",e:true}]},
+    {label:"Acc. sg", cells:[{v:"Rosam",e:true},{v:"Dominum",e:true},{v:"Templum",e:true}]},
+    {label:"Acc. pl", cells:[{v:"Rosas",e:true},{v:"Dominos",e:true},{v:"Templa",e:true}]},
+    {label:"Gén. sg", cells:[{v:"Rosae",e:true},{v:"Domini",e:true},{v:"Templi",e:true}]},
+    {label:"Gén. pl", cells:[{v:"Rosarum",e:true},{v:"Dominorum",e:true},{v:"Templorum",e:true}]},
+    {label:"Dat. sg", cells:[{v:"Rosae",e:true},{v:"Domino",e:true},{v:"Templo",e:true}]},
+    {label:"Dat. pl", cells:[{v:"Rosis",e:true},{v:"Dominis",e:true},{v:"Templis",e:true}]},
+    {label:"Abl. sg", cells:[{v:"Rosa",e:true},{v:"Domino",e:true},{v:"Templo",e:true}]},
+    {label:"Abl. pl", cells:[{v:"Rosis",e:true},{v:"Dominis",e:true},{v:"Templis",e:true}]}
   ]},
-  {title: "D3 : IMPARI", headers: ["Cas","F/M sg","N sg","F/M pl","N pl"], rows: [
-    {label:"Nom.", cells:[{v:"Consul",e:true},{v:"Corpus",e:true},{v:"Consules",e:true},{v:"Corpora",e:true}]},
-    {label:"Voc.", cells:[{v:"Consul",e:true},{v:"Corpus",e:true},{v:"Consules",e:true},{v:"Corpora",e:true}]},
-    {label:"Acc.", cells:[{v:"Consulem",e:true},{v:"Corpus",e:true},{v:"Consules",e:true},{v:"Corpora",e:true}]},
-    {label:"Gén.", cells:[{v:"Consulis",e:true},{v:"Corporis",e:true},{v:"ConsulUM",e:true},{v:"CorporUM",e:true}]},
-    {label:"Dat.", cells:[{v:"Consuli",e:true},{v:"Corpori",e:true},{v:"Consulibus",e:true},{v:"Corporibus",e:true}]},
-    {label:"Abl.", cells:[{v:"Consule",e:true},{v:"Corpore",e:true},{v:"Consulibus",e:true},{v:"Corporibus",e:true}]}
+  // D3 PARI réorganisé
+  {title: "D3 : PARI", headers: ["Cas","F/M","N"], rows: [
+    {label:"Nom. sg", cells:[{v:"Civis",e:true},{v:"Mare",e:true}]},
+    {label:"Nom. pl", cells:[{v:"Cives",e:true},{v:"Maria",e:true}]},
+    {label:"Voc. sg", cells:[{v:"Civis",e:true},{v:"Mare",e:true}]},
+    {label:"Voc. pl", cells:[{v:"Cives",e:true},{v:"Maria",e:true}]},
+    {label:"Acc. sg", cells:[{v:"Civem",e:true},{v:"Mare",e:true}]},
+    {label:"Acc. pl", cells:[{v:"Cives",e:true},{v:"Maria",e:true}]},
+    {label:"Gén. sg", cells:[{v:"Civis",e:true},{v:"Maris",e:true}]},
+    {label:"Gén. pl", cells:[{v:"CivIUM",e:true},{v:"MarIUM",e:true}]},
+    {label:"Dat. sg", cells:[{v:"Civi",e:true},{v:"Mari",e:true}]},
+    {label:"Dat. pl", cells:[{v:"Civibus",e:true},{v:"Maribus",e:true}]},
+    {label:"Abl. sg", cells:[{v:"Cive",e:true},{v:"Mari",e:true}]},
+    {label:"Abl. pl", cells:[{v:"Civibus",e:true},{v:"Maribus",e:true}]}
+  ]},
+  // D3 IMPARI réorganisé
+  {title: "D3 : IMPARI", headers: ["Cas","F/M","N"], rows: [
+    {label:"Nom. sg", cells:[{v:"Consul",e:true},{v:"Corpus",e:true}]},
+    {label:"Nom. pl", cells:[{v:"Consules",e:true},{v:"Corpora",e:true}]},
+    {label:"Voc. sg", cells:[{v:"Consul",e:true},{v:"Corpus",e:true}]},
+    {label:"Voc. pl", cells:[{v:"Consules",e:true},{v:"Corpora",e:true}]},
+    {label:"Acc. sg", cells:[{v:"Consulem",e:true},{v:"Corpus",e:true}]},
+    {label:"Acc. pl", cells:[{v:"Consules",e:true},{v:"Corpora",e:true}]},
+    {label:"Gén. sg", cells:[{v:"Consulis",e:true},{v:"Corporis",e:true}]},
+    {label:"Gén. pl", cells:[{v:"ConsulUM",e:true},{v:"CorporUM",e:true}]},
+    {label:"Dat. sg", cells:[{v:"Consuli",e:true},{v:"Corpori",e:true}]},
+    {label:"Dat. pl", cells:[{v:"Consulibus",e:true},{v:"Corporibus",e:true}]},
+    {label:"Abl. sg", cells:[{v:"Consule",e:true},{v:"Corpore",e:true}]},
+    {label:"Abl. pl", cells:[{v:"Consulibus",e:true},{v:"Corporibus",e:true}]}
   ]},
   {title: "Pronoms Possessifs", headers: ["Nb poss.","Latin","Traduction"], rows: [
     {label:"1 poss. 1sg", cells:[{v:"Meus, a, um",e:true},{v:"mon, ma, mes",e:false}]},
@@ -442,19 +627,13 @@ const TABLES = [
     {label:"Plur. 2pl", cells:[{v:"uester, tra, trum",e:true},{v:"votre, vos",e:false}]},
     {label:"Plur. 3pl", cells:[{v:"suus, tra, trum",e:true},{v:"leur, leurs",e:false}]}
   ]},
-  {title: "Pronoms Relatifs — Singulier", headers: ["Cas","Masc.","Fém.","Neutre","Trad."], rows: [
-    {label:"Nom.", cells:[{v:"qui",e:true},{v:"quae",e:true},{v:"quod",e:true},{v:"qui",e:false}]},
-    {label:"Acc.", cells:[{v:"quem",e:true},{v:"quam",e:true},{v:"quod",e:true},{v:"que",e:false}]},
-    {label:"Gén.", cells:[{v:"cuius",e:true},{v:"cuius",e:true},{v:"cuius",e:true},{v:"dont, de qui",e:false}]},
-    {label:"Dat.", cells:[{v:"cui",e:true},{v:"cui",e:true},{v:"cui",e:true},{v:"à qui, auquel",e:false}]},
-    {label:"Abl.", cells:[{v:"quo",e:true},{v:"qua",e:true},{v:"quo",e:true},{v:"par qui, dont",e:false}]}
-  ]},
-  {title: "Pronoms Relatifs — Pluriel", headers: ["Cas","Masc.","Fém.","Neutre"], rows: [
-    {label:"Nom.", cells:[{v:"qui",e:true},{v:"quae",e:true},{v:"quae",e:true}]},
-    {label:"Acc.", cells:[{v:"quos",e:true},{v:"quas",e:true},{v:"quae",e:true}]},
-    {label:"Gén.", cells:[{v:"quorum",e:true},{v:"quarum",e:true},{v:"quorum",e:true}]},
-    {label:"Dat.", cells:[{v:"quibus",e:true},{v:"quibus",e:true},{v:"quibus",e:true}]},
-    {label:"Abl.", cells:[{v:"quibus",e:true},{v:"quibus",e:true},{v:"quibus",e:true}]}
+  // PRONOMS RELATIFS FUSIONNES (singulier + pluriel ensemble)
+  {title: "Pronoms Relatifs", headers: ["Cas","M sg","F sg","N sg","Trad.","M pl","F pl","N pl"], rows: [
+    {label:"Nom.", cells:[{v:"qui",e:true},{v:"quae",e:true},{v:"quod",e:true},{v:"qui",e:false},{v:"qui",e:true},{v:"quae",e:true},{v:"quae",e:true}]},
+    {label:"Acc.", cells:[{v:"quem",e:true},{v:"quam",e:true},{v:"quod",e:true},{v:"que",e:false},{v:"quos",e:true},{v:"quas",e:true},{v:"quae",e:true}]},
+    {label:"Gén.", cells:[{v:"cuius",e:true},{v:"cuius",e:true},{v:"cuius",e:true},{v:"dont, de qui",e:false},{v:"quorum",e:true},{v:"quarum",e:true},{v:"quorum",e:true}]},
+    {label:"Dat.", cells:[{v:"cui",e:true},{v:"cui",e:true},{v:"cui",e:true},{v:"à qui, auquel",e:false},{v:"quibus",e:true},{v:"quibus",e:true},{v:"quibus",e:true}]},
+    {label:"Abl.", cells:[{v:"quo",e:true},{v:"qua",e:true},{v:"quo",e:true},{v:"par qui, dont",e:false},{v:"quibus",e:true},{v:"quibus",e:true},{v:"quibus",e:true}]}
   ]},
   {title: "Passif Présent", headers: ["Personne","Latin","Français"], rows: [
     {label:"1sg", cells:[{v:"Amor",e:true},{v:"je suis aimé",e:false}]},
@@ -582,66 +761,167 @@ function reinitTableau() {
   hideFeedback('feedbackTableaux');
 }
 
+// MOTS POUR IDENTIFICATION - ALTERNANCE entre noms et verbes
 const WORDS = [
+  // Alternance D1 nom + verbe 1ère conj
   {w:"rosam", type:"nom", genre:"F", decl:"D1", cas:"Acc.", nb:"sg", trad:"la rose"},
-  {w:"puellae", type:"nom", genre:"F", decl:"D1", cas:"Gén.", nb:"sg", trad:"de la jeune fille"},
-  {w:"patriam", type:"nom", genre:"F", decl:"D1", cas:"Acc.", nb:"sg", trad:"la patrie"},
-  {w:"terram", type:"nom", genre:"F", decl:"D1", cas:"Acc.", nb:"sg", trad:"la terre"},
-  {w:"rosae", type:"nom", genre:"F", decl:"D1", cas:"Nom.", nb:"pl", trad:"les roses"},
-  {w:"terrarum", type:"nom", genre:"F", decl:"D1", cas:"Gén.", nb:"pl", trad:"des terres"},
-  {w:"dominum", type:"nom", genre:"M", decl:"D2", cas:"Acc.", nb:"sg", trad:"le maître"},
-  {w:"servi", type:"nom", genre:"M", decl:"D2", cas:"Gén.", nb:"sg", trad:"de l'esclave"},
-  {w:"filio", type:"nom", genre:"M", decl:"D2", cas:"Dat.", nb:"sg", trad:"au fils"},
-  {w:"templum", type:"nom", genre:"N", decl:"D2", cas:"Nom.", nb:"sg", trad:"le temple"},
-  {w:"belli", type:"nom", genre:"N", decl:"D2", cas:"Gén.", nb:"sg", trad:"de la guerre"},
-  {w:"consulem", type:"nom", genre:"M", decl:"D3-impari", cas:"Acc.", nb:"sg", trad:"le consul"},
-  {w:"militis", type:"nom", genre:"M", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"du soldat"},
-  {w:"patri", type:"nom", genre:"M", decl:"D3-impari", cas:"Dat.", nb:"sg", trad:"au père"},
-  {w:"matris", type:"nom", genre:"F", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"de la mère"},
-  {w:"corpus", type:"nom", genre:"N", decl:"D3-impari", cas:"Nom.", nb:"sg", trad:"le corps"},
-  {w:"nominis", type:"nom", genre:"N", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"du nom"},
-  {w:"civem", type:"nom", genre:"FM", decl:"D3-pari", cas:"Acc.", nb:"sg", trad:"le/la citoyen(ne)"},
-  {w:"civis", type:"nom", genre:"FM", decl:"D3-pari", cas:"Gén.", nb:"sg", trad:"du citoyen"},
-  {w:"mare", type:"nom", genre:"N", decl:"D3-pari", cas:"Nom.", nb:"sg", trad:"la mer"},
   {w:"amo", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"j'aime"},
+  {w:"puellae", type:"nom", genre:"F", decl:"D1", cas:"Gén.", nb:"sg", trad:"de la jeune fille"},
   {w:"amas", type:"verb", conj:"1", temps:"Présent actif", pers:"2sg", trad:"tu aimes"},
+  {w:"patriam", type:"nom", genre:"F", decl:"D1", cas:"Acc.", nb:"sg", trad:"la patrie"},
   {w:"amat", type:"verb", conj:"1", temps:"Présent actif", pers:"3sg", trad:"il/elle aime"},
+  {w:"terram", type:"nom", genre:"F", decl:"D1", cas:"Acc.", nb:"sg", trad:"la terre"},
   {w:"amant", type:"verb", conj:"1", temps:"Présent actif", pers:"3pl", trad:"ils aiment"},
+  {w:"rosae", type:"nom", genre:"F", decl:"D1", cas:"Nom.", nb:"pl", trad:"les roses"},
   {w:"amavi", type:"verb", conj:"1", temps:"Parfait", pers:"1sg", trad:"j'aimai / j'ai aimé"},
-  {w:"amavit", type:"verb", conj:"1", temps:"Parfait", pers:"3sg", trad:"il aima"},
-  {w:"amaveram", type:"verb", conj:"1", temps:"Plus-que-parfait", pers:"1sg", trad:"j'avais aimé"},
-  {w:"amor", type:"verb", conj:"1", temps:"Passif présent", pers:"1sg", trad:"je suis aimé"},
-  {w:"amatur", type:"verb", conj:"1", temps:"Passif présent", pers:"3sg", trad:"il est aimé"},
-  {w:"specto", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"je regarde"},
-  {w:"spectat", type:"verb", conj:"1", temps:"Présent actif", pers:"3sg", trad:"il regarde"},
-  {w:"incolo", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"j'habite"},
-  {w:"impero", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"je commande"},
+  {w:"amabam", type:"verb", conj:"1", temps:"Imparfait", pers:"1sg", trad:"j'aimais"},
+  
+  // Alternance D2 masc + verbe 2ème conj
+  {w:"dominum", type:"nom", genre:"M", decl:"D2", cas:"Acc.", nb:"sg", trad:"le maître"},
   {w:"video", type:"verb", conj:"2", temps:"Présent actif", pers:"1sg", trad:"je vois"},
+  {w:"videbam", type:"verb", conj:"2", temps:"Imparfait", pers:"1sg", trad:"je voyais"},
+  {w:"servi", type:"nom", genre:"M", decl:"D2", cas:"Gén.", nb:"sg", trad:"de l'esclave"},
   {w:"videt", type:"verb", conj:"2", temps:"Présent actif", pers:"3sg", trad:"il voit"},
+  {w:"filio", type:"nom", genre:"M", decl:"D2", cas:"Dat.", nb:"sg", trad:"au fils"},
   {w:"vidi", type:"verb", conj:"2", temps:"Parfait", pers:"1sg", trad:"j'ai vu"},
+  {w:"amicus", type:"nom", genre:"M", decl:"D2", cas:"Nom.", nb:"sg", trad:"l'ami"},
   {w:"habeo", type:"verb", conj:"2", temps:"Présent actif", pers:"1sg", trad:"j'ai"},
+  {w:"populus", type:"nom", genre:"M", decl:"D2", cas:"Nom.", nb:"sg", trad:"le peuple"},
   {w:"habet", type:"verb", conj:"2", temps:"Présent actif", pers:"3sg", trad:"il a"},
+  
+  // Alternance D2 neutre + verbe 3ème conj
+  {w:"templum", type:"nom", genre:"N", decl:"D2", cas:"Nom.", nb:"sg", trad:"le temple"},
   {w:"dico", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je dis"},
+  {w:"belli", type:"nom", genre:"N", decl:"D2", cas:"Gén.", nb:"sg", trad:"de la guerre"},
   {w:"dicit", type:"verb", conj:"3", temps:"Présent actif", pers:"3sg", trad:"il dit"},
+  {w:"dicebat", type:"verb", conj:"3", temps:"Imparfait", pers:"3sg", trad:"il disait"},
+  {w:"donum", type:"nom", genre:"N", decl:"D2", cas:"Acc.", nb:"sg", trad:"le cadeau"},
   {w:"dixit", type:"verb", conj:"3", temps:"Parfait", pers:"3sg", trad:"il dit (passé)"},
+  {w:"regna", type:"nom", genre:"N", decl:"D2", cas:"Nom.", nb:"pl", trad:"les royaumes"},
   {w:"gero", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je fais"},
+  {w:"verba", type:"nom", genre:"N", decl:"D2", cas:"Acc.", nb:"pl", trad:"les paroles"},
   {w:"gerit", type:"verb", conj:"3", temps:"Présent actif", pers:"3sg", trad:"il fait"},
-  {w:"accipio", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je prends"},
-  {w:"accipit", type:"verb", conj:"3", temps:"Présent actif", pers:"3sg", trad:"il prend"},
-  {w:"peto", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je demande"},
-  {w:"trado", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je livre"},
-  {w:"pono", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je place"},
+  
+  // Alternance D3-impari + verbe 4ème conj
+  {w:"consulem", type:"nom", genre:"M", decl:"D3-impari", cas:"Acc.", nb:"sg", trad:"le consul"},
   {w:"venio", type:"verb", conj:"4", temps:"Présent actif", pers:"1sg", trad:"je viens"},
+  {w:"militis", type:"nom", genre:"M", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"du soldat"},
   {w:"venit", type:"verb", conj:"4", temps:"Présent actif", pers:"3sg", trad:"il vient"},
+  {w:"veniebat", type:"verb", conj:"4", temps:"Imparfait", pers:"3sg", trad:"il venait"},
+  {w:"patri", type:"nom", genre:"M", decl:"D3-impari", cas:"Dat.", nb:"sg", trad:"au père"},
   {w:"veni", type:"verb", conj:"4", temps:"Parfait", pers:"1sg", trad:"je suis venu"},
+  {w:"matris", type:"nom", genre:"F", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"de la mère"},
   {w:"invenio", type:"verb", conj:"4", temps:"Présent actif", pers:"1sg", trad:"je trouve"},
+  {w:"inveniebam", type:"verb", conj:"4", temps:"Imparfait", pers:"1sg", trad:"je trouvais"},
+  {w:"corpus", type:"nom", genre:"N", decl:"D3-impari", cas:"Nom.", nb:"sg", trad:"le corps"},
+  {w:"audio", type:"verb", conj:"4", temps:"Présent actif", pers:"1sg", trad:"j'entends"},
+  {w:"audiebam", type:"verb", conj:"4", temps:"Imparfait", pers:"1sg", trad:"j'entendais"},
+  
+  // Alternance D3-pari + verbes irréguliers
+  {w:"civem", type:"nom", genre:"FM", decl:"D3-pari", cas:"Acc.", nb:"sg", trad:"le/la citoyen(ne)"},
   {w:"sum", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je suis"},
+  {w:"eram", type:"verb", conj:"irr", temps:"Imparfait", pers:"1sg", trad:"j'étais"},
+  {w:"civis", type:"nom", genre:"FM", decl:"D3-pari", cas:"Gén.", nb:"sg", trad:"du citoyen"},
   {w:"es", type:"verb", conj:"irr", temps:"Présent actif", pers:"2sg", trad:"tu es"},
+  {w:"mare", type:"nom", genre:"N", decl:"D3-pari", cas:"Nom.", nb:"sg", trad:"la mer"},
   {w:"est", type:"verb", conj:"irr", temps:"Présent actif", pers:"3sg", trad:"il est"},
+  {w:"navem", type:"nom", genre:"F", decl:"D3-pari", cas:"Acc.", nb:"sg", trad:"le navire"},
   {w:"sunt", type:"verb", conj:"irr", temps:"Présent actif", pers:"3pl", trad:"ils sont"},
+  {w:"cives", type:"nom", genre:"FM", decl:"D3-pari", cas:"Nom.", nb:"pl", trad:"les citoyens"},
   {w:"fui", type:"verb", conj:"irr", temps:"Parfait", pers:"1sg", trad:"je fus / j'ai été"},
+  
+  // Suite alternée
+  {w:"aqua", type:"nom", genre:"F", decl:"D1", cas:"Nom.", nb:"sg", trad:"l'eau"},
+  {w:"specto", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"je regarde"},
+  {w:"spectabam", type:"verb", conj:"1", temps:"Imparfait", pers:"1sg", trad:"je regardais"},
+  {w:"stellas", type:"nom", genre:"F", decl:"D1", cas:"Acc.", nb:"pl", trad:"les étoiles"},
+  {w:"laudo", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"je loue"},
+  {w:"laudabat", type:"verb", conj:"1", temps:"Imparfait", pers:"3sg", trad:"il louait"},
+  {w:"vitae", type:"nom", genre:"F", decl:"D1", cas:"Dat.", nb:"sg", trad:"à la vie"},
+  {w:"puto", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"je pense"},
+  {w:"discipulos", type:"nom", genre:"M", decl:"D2", cas:"Acc.", nb:"pl", trad:"les élèves"},
+  {w:"timeo", type:"verb", conj:"2", temps:"Présent actif", pers:"1sg", trad:"je crains"},
+  {w:"timebam", type:"verb", conj:"2", temps:"Imparfait", pers:"1sg", trad:"je craignais"},
+  {w:"equorum", type:"nom", genre:"M", decl:"D2", cas:"Gén.", nb:"pl", trad:"des chevaux"},
+  {w:"moneo", type:"verb", conj:"2", temps:"Présent actif", pers:"1sg", trad:"j'avertis"},
+  {w:"monebat", type:"verb", conj:"2", temps:"Imparfait", pers:"3sg", trad:"il avertissait"},
+  {w:"animus", type:"nom", genre:"M", decl:"D2", cas:"Nom.", nb:"sg", trad:"l'esprit"},
+  {w:"lego", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je lis"},
+  {w:"legebam", type:"verb", conj:"3", temps:"Imparfait", pers:"1sg", trad:"je lisais"},
+  {w:"auxilium", type:"nom", genre:"N", decl:"D2", cas:"Acc.", nb:"sg", trad:"le secours"},
+  {w:"scribo", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"j'écris"},
+  {w:"scribebat", type:"verb", conj:"3", temps:"Imparfait", pers:"3sg", trad:"il écrivait"},
+  {w:"castra", type:"nom", genre:"N", decl:"D2", cas:"Nom.", nb:"pl", trad:"le camp"},
+  {w:"mitto", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"j'envoie"},
+  {w:"regem", type:"nom", genre:"M", decl:"D3-impari", cas:"Acc.", nb:"sg", trad:"le roi"},
+  {w:"aperio", type:"verb", conj:"4", temps:"Présent actif", pers:"1sg", trad:"j'ouvre"},
+  {w:"fratris", type:"nom", genre:"M", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"du frère"},
+  {w:"sentio", type:"verb", conj:"4", temps:"Présent actif", pers:"1sg", trad:"je sens"},
+  {w:"hominem", type:"nom", genre:"M", decl:"D3-impari", cas:"Acc.", nb:"sg", trad:"l'homme"},
+  {w:"possum", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je peux"},
+  {w:"tempore", type:"nom", genre:"N", decl:"D3-impari", cas:"Abl.", nb:"sg", trad:"par le temps"},
+  {w:"volo", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je veux"},
+  {w:"volebam", type:"verb", conj:"irr", temps:"Imparfait", pers:"1sg", trad:"je voulais"},
+  {w:"legis", type:"nom", genre:"F", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"de la loi"},
+  {w:"fero", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je porte"},
+  {w:"ferebam", type:"verb", conj:"irr", temps:"Imparfait", pers:"1sg", trad:"je portais"},
+  {w:"urbs", type:"nom", genre:"F", decl:"D3-impari", cas:"Nom.", nb:"sg", trad:"la ville"},
+  {w:"eo", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je vais"},
+  {w:"ibam", type:"verb", conj:"irr", temps:"Imparfait", pers:"1sg", trad:"j'allais"},
+  {w:"urbem", type:"nom", genre:"F", decl:"D3-impari", cas:"Acc.", nb:"sg", trad:"la ville"},
+  {w:"impero", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"je commande"},
+  {w:"ducem", type:"nom", genre:"M", decl:"D3-impari", cas:"Acc.", nb:"sg", trad:"le chef"},
+  {w:"debeo", type:"verb", conj:"2", temps:"Présent actif", pers:"1sg", trad:"je dois"},
+  {w:"ducis", type:"nom", genre:"M", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"du chef"},
+  {w:"accipio", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je prends"},
+  {w:"nomen", type:"nom", genre:"N", decl:"D3-impari", cas:"Nom.", nb:"sg", trad:"le nom"},
+  {w:"capio", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je prends"},
+  {w:"flumen", type:"nom", genre:"N", decl:"D3-impari", cas:"Nom.", nb:"sg", trad:"le fleuve"},
+  {w:"dormio", type:"verb", conj:"4", temps:"Présent actif", pers:"1sg", trad:"je dors"},
+  {w:"tempus", type:"nom", genre:"N", decl:"D3-impari", cas:"Nom.", nb:"sg", trad:"le temps"},
   {w:"absum", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je suis absent"},
-  {w:"pereo", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je péris"}
+  {w:"navis", type:"nom", genre:"F", decl:"D3-pari", cas:"Nom.", nb:"sg", trad:"le navire"},
+  {w:"pereo", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je péris"},
+  {w:"hostis", type:"nom", genre:"M", decl:"D3-pari", cas:"Nom.", nb:"sg", trad:"l'ennemi"},
+  {w:"navigo", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"je navigue"},
+  {w:"hostem", type:"nom", genre:"M", decl:"D3-pari", cas:"Acc.", nb:"sg", trad:"l'ennemi"},
+  {w:"teneo", type:"verb", conj:"2", temps:"Présent actif", pers:"1sg", trad:"je tiens"},
+  {w:"turris", type:"nom", genre:"F", decl:"D3-pari", cas:"Nom.", nb:"sg", trad:"la tour"},
+  {w:"duco", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je conduis"},
+  {w:"maria", type:"nom", genre:"N", decl:"D3-pari", cas:"Nom.", nb:"pl", trad:"les mers"},
+  {w:"pono", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je place"},
+  {w:"poetae", type:"nom", genre:"M", decl:"D1", cas:"Gén.", nb:"sg", trad:"du poète"},
+  {w:"servio", type:"verb", conj:"4", temps:"Présent actif", pers:"1sg", trad:"je sers"},
+  {w:"agricola", type:"nom", genre:"M", decl:"D1", cas:"Nom.", nb:"sg", trad:"le paysan"},
+  {w:"it", type:"verb", conj:"irr", temps:"Présent actif", pers:"3sg", trad:"il va"},
+  {w:"nautae", type:"nom", genre:"M", decl:"D1", cas:"Dat.", nb:"sg", trad:"au marin"},
+  {w:"eunt", type:"verb", conj:"irr", temps:"Présent actif", pers:"3pl", trad:"ils vont"},
+  {w:"victoriam", type:"nom", genre:"F", decl:"D1", cas:"Acc.", nb:"sg", trad:"la victoire"},
+  {w:"laboro", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"je travaille"},
+  {w:"gloriae", type:"nom", genre:"F", decl:"D1", cas:"Gen.", nb:"sg", trad:"de la gloire"},
+  {w:"maneo", type:"verb", conj:"2", temps:"Présent actif", pers:"1sg", trad:"je reste"},
+  {w:"animo", type:"nom", genre:"M", decl:"D2", cas:"Abl.", nb:"sg", trad:"par l'esprit"},
+  {w:"peto", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je demande"},
+  {w:"numerus", type:"nom", genre:"M", decl:"D2", cas:"Nom.", nb:"sg", trad:"le nombre"},
+  {w:"trado", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je livre"},
+  {w:"insulis", type:"nom", genre:"F", decl:"D1", cas:"Abl.", nb:"pl", trad:"par les îles"},
+  {w:"affero", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"j'apporte"},
+  {w:"terrarum", type:"nom", genre:"F", decl:"D1", cas:"Gén.", nb:"pl", trad:"des terres"},
+  {w:"clamo", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"je crie"},
+  {w:"amavit", type:"verb", conj:"1", temps:"Parfait", pers:"3sg", trad:"il aima"},
+  {w:"nominis", type:"nom", genre:"N", decl:"D3-impari", cas:"Gén.", nb:"sg", trad:"du nom"},
+  {w:"amor", type:"verb", conj:"1", temps:"Passif présent", pers:"1sg", trad:"je suis aimé"},
+  {w:"classem", type:"nom", genre:"F", decl:"D3-pari", cas:"Acc.", nb:"sg", trad:"la flotte"},
+  {w:"amatur", type:"verb", conj:"1", temps:"Passif présent", pers:"3sg", trad:"il est aimé"},
+  {w:"incolo", type:"verb", conj:"1", temps:"Présent actif", pers:"1sg", trad:"j'habite"},
+  {w:"spectat", type:"verb", conj:"1", temps:"Présent actif", pers:"3sg", trad:"il regarde"},
+  {w:"respondeo", type:"verb", conj:"2", temps:"Présent actif", pers:"1sg", trad:"je réponds"},
+  {w:"accipit", type:"verb", conj:"3", temps:"Présent actif", pers:"3sg", trad:"il prend"},
+  {w:"occido", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je tue"},
+  {w:"vincit", type:"verb", conj:"3", temps:"Présent actif", pers:"3sg", trad:"il vainc"},
+  {w:"relinquo", type:"verb", conj:"3", temps:"Présent actif", pers:"1sg", trad:"je laisse"},
+  {w:"nolo", type:"verb", conj:"irr", temps:"Présent actif", pers:"1sg", trad:"je ne veux pas"},
+  {w:"amaveram", type:"verb", conj:"1", temps:"Plus-que-parfait", pers:"1sg", trad:"j'avais aimé"}
 ];
 
 let wordIdx = 0;
@@ -667,7 +947,7 @@ function buildIdForm() {
     f.innerHTML = '<div class="id-group"><label class="group-title">Conjugaison</label><div class="checkbox-grid">' +
       ['1','2','3','4','irr'].map(c => '<label class="check-item"><input type="radio" name="conj" value="' + c + '"> ' + (c==='irr'?'Irrégulier':c+'ère/ème') + '</label>').join('') +
       '</div></div><div class="id-group"><label class="group-title">Temps</label><div class="checkbox-grid">' +
-      ['Présent actif','Parfait','Plus-que-parfait','Passif présent','Passif parfait'].map(t => '<label class="check-item"><input type="radio" name="temps" value="' + t + '"> ' + t + '</label>').join('') +
+      ['Présent actif','Imparfait','Parfait','Plus-que-parfait','Passif présent','Passif parfait'].map(t => '<label class="check-item"><input type="radio" name="temps" value="' + t + '"> ' + t + '</label>').join('') +
       '</div></div><div class="id-group"><label class="group-title">Personne</label><div class="checkbox-grid">' +
       ['1sg','2sg','3sg','1pl','2pl','3pl'].map(p => '<label class="check-item"><input type="radio" name="pers" value="' + p + '"> ' + p + '</label>').join('') +
       '</div></div><div class="id-group"><label class="group-title">Traduction</label>' +
@@ -745,6 +1025,7 @@ function reinitIdentification() {
   hideFeedback('feedbackId');
 }
 
+// PHRASES POUR TRADUCTION (liste étendue à 50 phrases)
 const PHRASES = [
   {latin: "Rosa in horto pulchra est.", trad: "La rose dans le jardin est belle.", lex: [{w:"rosa", t:"rose — F, D1, nom. sg"},{w:"in", t:"dans — prép. + abl."},{w:"horto", t:"jardin — M, D2, abl. sg"},{w:"pulchra", t:"belle — adj."},{w:"est", t:"est — esse, 3sg"}]},
   {latin: "Dominus servum laudat.", trad: "Le maître loue l'esclave.", lex: [{w:"dominus", t:"maître — M, D2, nom. sg"},{w:"servum", t:"esclave — M, D2, acc. sg"},{w:"laudat", t:"loue — laudare, 3sg"}]},
@@ -775,7 +1056,32 @@ const PHRASES = [
   {latin: "Iuvenis fortis pugnat.", trad: "Le jeune homme brave combat.", lex: [{w:"iuvenis", t:"jeune homme — M, D3-pari"},{w:"fortis", t:"brave — adj."},{w:"pugnat", t:"combat — pugnare, 3sg"}]},
   {latin: "Senex sapiens consilium dat.", trad: "Le vieillard sage donne un conseil.", lex: [{w:"senex", t:"vieillard — M, D3-pari"},{w:"sapiens", t:"sage — adj."},{w:"consilium", t:"conseil — N, D2, acc."},{w:"dat", t:"donne — dare, 3sg"}]},
   {latin: "Canis dominum sequitur.", trad: "Le chien suit le maître.", lex: [{w:"canis", t:"chien — M, D3-pari"},{w:"dominum", t:"maître — M, D2, acc."},{w:"sequitur", t:"suit — sequi, 3sg dép."}]},
-  {latin: "Frater cum sorore ambulat.", trad: "Le frère marche avec sa sœur.", lex: [{w:"frater", t:"frère — M, D3-impari"},{w:"cum", t:"avec — prép. + abl."},{w:"sorore", t:"sœur — F, D3-impari, abl."},{w:"ambulat", t:"marche — ambulare, 3sg"}]}
+  {latin: "Frater cum sorore ambulat.", trad: "Le frère marche avec sa sœur.", lex: [{w:"frater", t:"frère — M, D3-impari"},{w:"cum", t:"avec — prép. + abl."},{w:"sorore", t:"sœur — F, D3-impari, abl."},{w:"ambulat", t:"marche — ambulare, 3sg"}]},
+  {latin: "Poeta carmina scribit.", trad: "Le poète écrit des poèmes.", lex: [{w:"poeta", t:"poète — M, D1"},{w:"carmina", t:"poèmes — N, D3, acc. pl"},{w:"scribit", t:"écrit — scribere, 3sg"}]},
+  {latin: "Agricola in agris laborat.", trad: "Le paysan travaille dans les champs.", lex: [{w:"agricola", t:"paysan — M, D1"},{w:"agris", t:"champs — M, D2, abl. pl"},{w:"laborat", t:"travaille — laborare, 3sg"}]},
+  {latin: "Nauta navem regit.", trad: "Le marin dirige le navire.", lex: [{w:"nauta", t:"marin — M, D1"},{w:"navem", t:"navire — F, D3-pari, acc."},{w:"regit", t:"dirige — regere, 3sg"}]},
+  {latin: "Victoria nobis grata est.", trad: "La victoire nous est agréable.", lex: [{w:"victoria", t:"victoire — F, D1"},{w:"nobis", t:"nous — dat."},{w:"grata", t:"agréable — adj."},{w:"est", t:"est — esse"}]},
+  {latin: "Gloria militum magna est.", trad: "La gloire des soldats est grande.", lex: [{w:"gloria", t:"gloire — F, D1"},{w:"militum", t:"soldats — M, D3, gén. pl"},{w:"magna", t:"grande — adj."},{w:"est", t:"est — esse"}]},
+  {latin: "Aqua fluminis clara est.", trad: "L'eau du fleuve est claire.", lex: [{w:"aqua", t:"eau — F, D1"},{w:"fluminis", t:"fleuve — N, D3, gén."},{w:"clara", t:"claire — adj."},{w:"est", t:"est — esse"}]},
+  {latin: "Stellae in caelo lucent.", trad: "Les étoiles brillent dans le ciel.", lex: [{w:"stellae", t:"étoiles — F, D1, nom. pl"},{w:"caelo", t:"ciel — M, D2, abl."},{w:"lucent", t:"brillent — lucere, 3pl"}]},
+  {latin: "Vita brevis est.", trad: "La vie est brève.", lex: [{w:"vita", t:"vie — F, D1"},{w:"brevis", t:"brève — adj."},{w:"est", t:"est — esse"}]},
+  {latin: "Insulae in mari sunt.", trad: "Les îles sont dans la mer.", lex: [{w:"insulae", t:"îles — F, D1, nom. pl"},{w:"mari", t:"mer — N, D3, abl."},{w:"sunt", t:"sont — esse"}]},
+  {latin: "Animus fortis necessarius est.", trad: "Un esprit courageux est nécessaire.", lex: [{w:"animus", t:"esprit — M, D2"},{w:"fortis", t:"courageux — adj."},{w:"necessarius", t:"nécessaire — adj."},{w:"est", t:"est — esse"}]},
+  {latin: "Numerus hostium magnus est.", trad: "Le nombre d'ennemis est grand.", lex: [{w:"numerus", t:"nombre — M, D2"},{w:"hostium", t:"ennemis — M, D3, gén. pl"},{w:"magnus", t:"grand — adj."},{w:"est", t:"est — esse"}]},
+  {latin: "Auxilium amicorum gratum est.", trad: "L'aide des amis est agréable.", lex: [{w:"auxilium", t:"aide — N, D2"},{w:"amicorum", t:"amis — M, D2, gén. pl"},{w:"gratum", t:"agréable — adj."},{w:"est", t:"est — esse"}]},
+  {latin: "Castra Romana magna sunt.", trad: "Les camps romains sont grands.", lex: [{w:"castra", t:"camps — N, D2, nom. pl"},{w:"Romana", t:"romains — adj."},{w:"magna", t:"grands — adj."},{w:"sunt", t:"sont — esse"}]},
+  {latin: "Lex iusta est.", trad: "La loi est juste.", lex: [{w:"lex", t:"loi — F, D3-impari"},{w:"iusta", t:"juste — adj."},{w:"est", t:"est — esse"}]},
+  {latin: "Urbs antiqua est.", trad: "La ville est ancienne.", lex: [{w:"urbs", t:"ville — F, D3-impari"},{w:"antiqua", t:"ancienne — adj."},{w:"est", t:"est — esse"}]},
+  {latin: "Dux fortes milites habet.", trad: "Le chef a de courageux soldats.", lex: [{w:"dux", t:"chef — M, D3-impari"},{w:"fortes", t:"courageux — adj. pl"},{w:"milites", t:"soldats — M, D3, acc. pl"},{w:"habet", t:"a — habere"}]},
+  {latin: "Tempus fugit.", trad: "Le temps fuit.", lex: [{w:"tempus", t:"temps — N, D3-impari"},{w:"fugit", t:"fuit — fugere, 3sg"}]},
+  {latin: "Flumen per vallem fluit.", trad: "Le fleuve coule à travers la vallée.", lex: [{w:"flumen", t:"fleuve — N, D3-impari"},{w:"per", t:"à travers — prép."},{w:"vallem", t:"vallée — F, D3, acc."},{w:"fluit", t:"coule — fluere"}]},
+  {latin: "Corpus sanum mens sana.", trad: "Un corps sain, un esprit sain.", lex: [{w:"corpus", t:"corps — N, D3-impari"},{w:"sanum", t:"sain — adj."},{w:"mens", t:"esprit — F, D3"},{w:"sana", t:"saine — adj."}]},
+  {latin: "Navis in portu est.", trad: "Le navire est dans le port.", lex: [{w:"navis", t:"navire — F, D3-pari"},{w:"portu", t:"port — M, D4, abl."},{w:"est", t:"est — esse"}]},
+  {latin: "Pueri in horto ludebant.", trad: "Les enfants jouaient dans le jardin.", lex: [{w:"pueri", t:"enfants — M, D2, nom. pl"},{w:"horto", t:"jardin — M, D2, abl."},{w:"ludebant", t:"jouaient — ludere, 3pl imparf."}]},
+  {latin: "Miles pugnam spectabat.", trad: "Le soldat regardait le combat.", lex: [{w:"miles", t:"soldat — M, D3-impari"},{w:"pugnam", t:"combat — F, D1, acc."},{w:"spectabat", t:"regardait — spectare, 3sg imparf."}]},
+  {latin: "Dux milites monebat.", trad: "Le chef avertissait les soldats.", lex: [{w:"dux", t:"chef — M, D3-impari"},{w:"milites", t:"soldats — M, D3, acc. pl"},{w:"monebat", t:"avertissait — monere, 3sg imparf."}]},
+  {latin: "Romani bella gerebant.", trad: "Les Romains faisaient la guerre.", lex: [{w:"Romani", t:"Romains — M, D2, nom. pl"},{w:"bella", t:"guerres — N, D2, acc. pl"},{w:"gerebant", t:"faisaient — gerere, 3pl imparf."}]},
+  {latin: "Nautae mare timebant.", trad: "Les marins craignaient la mer.", lex: [{w:"nautae", t:"marins — M, D1, nom. pl"},{w:"mare", t:"mer — N, D3-pari, acc."},{w:"timebant", t:"craignaient — timere, 3pl imparf."}]}
 ];
 
 let phraseIdx = 0;

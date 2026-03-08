@@ -1182,23 +1182,35 @@ const CONJ_VERBS = [
   {goffiot:"eo, is, ire, ii, itum", conj:"irr", trad:"aller"}
 ];
 
+// Fonction pour mélanger un tableau (algorithme Fisher-Yates)
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+// Mélanger les verbes au chargement
+let SHUFFLED_CONJ_VERBS = shuffleArray(CONJ_VERBS);
 let conjIdx = 0;
 
 function renderConjVerb() {
-  const v = CONJ_VERBS[conjIdx];
+  const v = SHUFFLED_CONJ_VERBS[conjIdx];
   document.getElementById('conjVerb').textContent = v.goffiot;
-  document.getElementById('conjCounter').textContent = (conjIdx + 1) + ' / ' + CONJ_VERBS.length;
+  document.getElementById('conjCounter').textContent = (conjIdx + 1) + ' / ' + SHUFFLED_CONJ_VERBS.length;
 }
 
 function nextConjVerb() {
-  conjIdx = (conjIdx + 1) % CONJ_VERBS.length;
+  conjIdx = (conjIdx + 1) % SHUFFLED_CONJ_VERBS.length;
   renderConjVerb();
   document.querySelectorAll('input[name="conjGroup"]').forEach(inp => inp.checked = false);
   hideFeedback('feedbackConj');
 }
 
 function validerConjGroup() {
-  const v = CONJ_VERBS[conjIdx];
+  const v = SHUFFLED_CONJ_VERBS[conjIdx];
   const el = document.querySelector('input[name="conjGroup"]:checked');
   const feedEl = document.getElementById('feedbackConj');
   feedEl.classList.remove('show','ok','err');
@@ -1221,6 +1233,7 @@ function validerConjGroup() {
 }
 
 function reinitConjGroup() {
+  SHUFFLED_CONJ_VERBS = shuffleArray(CONJ_VERBS); // Remélanger les verbes
   conjIdx = 0;
   renderConjVerb();
   document.querySelectorAll('input[name="conjGroup"]').forEach(inp => inp.checked = false);

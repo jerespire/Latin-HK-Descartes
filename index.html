@@ -518,7 +518,7 @@
     <div id="panel-traduction" class="panel">
       <div class="trad-layout">
         <div class="trad-left">
-          <div class="phrase-counter" id="tradCounter">Phrase 1 / 50</div>
+          <div class="phrase-counter" id="tradCounter">Phrase 1 / 68</div>
           <div class="phrase-latin" id="tradPhrase">—</div>
           <textarea class="trad-textarea" id="tradInput" placeholder="Votre traduction…"
             onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();validerTrad();}"></textarea>
@@ -625,6 +625,22 @@ const TABLES = [
     {label:"2pl", cells:[{v:"Amaveratis",e:true},{v:"vous aviez aimé",e:false}]},
     {label:"3pl", cells:[{v:"Amaverant",e:true},{v:"ils avaient aimé",e:false}]}
   ]},
+  {title: "Conjugaison de l'Imparfait", headers: ["Personne","Latin","Français"], rows: [
+    {label:"1sg", cells:[{v:"Amabam",e:true},{v:"j'aimais",e:false}]},
+    {label:"2sg", cells:[{v:"Amabas",e:true},{v:"tu aimais",e:false}]},
+    {label:"3sg", cells:[{v:"Amabat",e:true},{v:"il aimait",e:false}]},
+    {label:"1pl", cells:[{v:"Amabamus",e:true},{v:"nous aimions",e:false}]},
+    {label:"2pl", cells:[{v:"Amabatis",e:true},{v:"vous aimiez",e:false}]},
+    {label:"3pl", cells:[{v:"Amabant",e:true},{v:"ils aimaient",e:false}]}
+  ]},
+  {title: "Conjugaison de l'Imparfait", headers: ["Personne","Latin","Français"], rows: [
+    {label:"1sg", cells:[{v:"Amabam",e:true},{v:"j'aimais",e:false}]},
+    {label:"2sg", cells:[{v:"Amabas",e:true},{v:"tu aimais",e:false}]},
+    {label:"3sg", cells:[{v:"Amabat",e:true},{v:"il aimait",e:false}]},
+    {label:"1pl", cells:[{v:"Amabamus",e:true},{v:"nous aimions",e:false}]},
+    {label:"2pl", cells:[{v:"Amabatis",e:true},{v:"vous aimiez",e:false}]},
+    {label:"3pl", cells:[{v:"Amabant",e:true},{v:"ils aimaient",e:false}]}
+  ]},
   {title: "Déclinaisons D1 & D2", headers: ["Cas","Féminin","Masculin","Neutre"], rows: [
     {label:"Nom. sg", cells:[{v:"Rosa",e:true},{v:"Dominus",e:true},{v:"Templum",e:true}]},
     {label:"Voc. sg", cells:[{v:"Rosa",e:true},{v:"Domine",e:true},{v:"Templum",e:true}]},
@@ -675,12 +691,57 @@ const TABLES = [
     {label:"Plur. 2pl", cells:[{v:"uester, tra, trum",e:true},{v:"votre, vos",e:false}]},
     {label:"Plur. 3pl", cells:[{v:"suus, tra, trum",e:true},{v:"leur, leurs",e:false}]}
   ]},
+  {title: "Déterminants Possessifs", headers: ["","M sg","F sg","N sg","M pl","F pl","N pl"], rows: [
+    {label:"Nom.", cells:[{v:"Meus",e:true},{v:"Mea",e:true},{v:"Meum",e:true},{v:"Mei",e:true},{v:"Meae",e:true},{v:"Mea",e:true}]},
+    {label:"Acc.", cells:[{v:"Meum",e:true},{v:"Meam",e:true},{v:"Meum",e:true},{v:"Meos",e:true},{v:"Meas",e:true},{v:"Mea",e:true}]},
+    {label:"Gén.", cells:[{v:"Mei",e:true},{v:"Meae",e:true},{v:"Mei",e:true},{v:"Meorum",e:true},{v:"Mearum",e:true},{v:"Meorum",e:true}]},
+    {label:"Dat.", cells:[{v:"Meo",e:true},{v:"Meae",e:true},{v:"Meo",e:true},{v:"Meis",e:true},{v:"Meis",e:true},{v:"Meis",e:true}]},
+    {label:"Abl.", cells:[{v:"Meo",e:true},{v:"Mea",e:true},{v:"Meo",e:true},{v:"Meis",e:true},{v:"Meis",e:true},{v:"Meis",e:true}]}
+  ]},
+  {title: "Déterminants Possessifs", headers: ["","M sg","F sg","N sg","M pl","F pl","N pl"], rows: [
+    {label:"Nom.", cells:[{v:"meus",e:true},{v:"mea",e:true},{v:"meum",e:true},{v:"mei",e:true},{v:"meae",e:true},{v:"mea",e:true}]},
+    {label:"Voc.", cells:[{v:"mi",e:true},{v:"mea",e:true},{v:"meum",e:true},{v:"mei",e:true},{v:"meae",e:true},{v:"mea",e:true}]},
+    {label:"Acc.", cells:[{v:"meum",e:true},{v:"meam",e:true},{v:"meum",e:true},{v:"meos",e:true},{v:"meas",e:true},{v:"mea",e:true}]},
+    {label:"Gén.", cells:[{v:"mei",e:true},{v:"meae",e:true},{v:"mei",e:true},{v:"meorum",e:true},{v:"mearum",e:true},{v:"meorum",e:true}]},
+    {label:"Dat.", cells:[{v:"meo",e:true},{v:"meae",e:true},{v:"meo",e:true},{v:"meis",e:true},{v:"meis",e:true},{v:"meis",e:true}]},
+    {label:"Abl.", cells:[{v:"meo",e:true},{v:"mea",e:true},{v:"meo",e:true},{v:"meis",e:true},{v:"meis",e:true},{v:"meis",e:true}]}
+  ]},
+  {title: "Déterminants Démonstratifs", headers: ["","M sg","F sg","N sg","M pl","F pl","N pl","Trad."], rows: [
+    {label:"Nom.", cells:[{v:"hic",e:true},{v:"haec",e:true},{v:"hoc",e:true},{v:"hi",e:true},{v:"hae",e:true},{v:"haec",e:true},{v:"ce, celui-ci",e:false}]},
+    {label:"Acc.", cells:[{v:"hunc",e:true},{v:"hanc",e:true},{v:"hoc",e:true},{v:"hos",e:true},{v:"has",e:true},{v:"haec",e:true},{v:"ce, celui-ci",e:false}]},
+    {label:"Gén.", cells:[{v:"huius",e:true},{v:"huius",e:true},{v:"huius",e:true},{v:"horum",e:true},{v:"harum",e:true},{v:"horum",e:true},{v:"de celui-ci",e:false}]},
+    {label:"Dat.", cells:[{v:"huic",e:true},{v:"huic",e:true},{v:"huic",e:true},{v:"his",e:true},{v:"his",e:true},{v:"his",e:true},{v:"à celui-ci",e:false}]},
+    {label:"Abl.", cells:[{v:"hoc",e:true},{v:"hac",e:true},{v:"hoc",e:true},{v:"his",e:true},{v:"his",e:true},{v:"his",e:true},{v:"par celui-ci",e:false}]}
+  ]},
+  {title: "Adjectifs 2e Classe", headers: ["Cas","M/F sg","N sg","M/F pl","N pl","Exemple"], rows: [
+    {label:"Nom.", cells:[{v:"fortis",e:true},{v:"forte",e:true},{v:"fortes",e:true},{v:"fortia",e:true},{v:"brave",e:false}]},
+    {label:"Voc.", cells:[{v:"fortis",e:true},{v:"forte",e:true},{v:"fortes",e:true},{v:"fortia",e:true},{v:"brave",e:false}]},
+    {label:"Acc.", cells:[{v:"fortem",e:true},{v:"forte",e:true},{v:"fortes",e:true},{v:"fortia",e:true},{v:"brave",e:false}]},
+    {label:"Gén.", cells:[{v:"fortis",e:true},{v:"fortis",e:true},{v:"fortium",e:true},{v:"fortium",e:true},{v:"du brave",e:false}]},
+    {label:"Dat.", cells:[{v:"forti",e:true},{v:"forti",e:true},{v:"fortibus",e:true},{v:"fortibus",e:true},{v:"au brave",e:false}]},
+    {label:"Abl.", cells:[{v:"forti",e:true},{v:"forti",e:true},{v:"fortibus",e:true},{v:"fortibus",e:true},{v:"par le brave",e:false}]}
+  ]},
   {title: "Pronoms Relatifs", headers: ["Cas","M sg","F sg","N sg","Trad.","M pl","F pl","N pl"], rows: [
     {label:"Nom.", cells:[{v:"qui",e:true},{v:"quae",e:true},{v:"quod",e:true},{v:"qui",e:false},{v:"qui",e:true},{v:"quae",e:true},{v:"quae",e:true}]},
     {label:"Acc.", cells:[{v:"quem",e:true},{v:"quam",e:true},{v:"quod",e:true},{v:"que",e:false},{v:"quos",e:true},{v:"quas",e:true},{v:"quae",e:true}]},
     {label:"Gén.", cells:[{v:"cuius",e:true},{v:"cuius",e:true},{v:"cuius",e:true},{v:"dont, de qui",e:false},{v:"quorum",e:true},{v:"quarum",e:true},{v:"quorum",e:true}]},
     {label:"Dat.", cells:[{v:"cui",e:true},{v:"cui",e:true},{v:"cui",e:true},{v:"à qui, auquel",e:false},{v:"quibus",e:true},{v:"quibus",e:true},{v:"quibus",e:true}]},
     {label:"Abl.", cells:[{v:"quo",e:true},{v:"qua",e:true},{v:"quo",e:true},{v:"par qui, dont",e:false},{v:"quibus",e:true},{v:"quibus",e:true},{v:"quibus",e:true}]}
+  ]},
+  {title: "Déterminants Démonstratifs", headers: ["","M sg","F sg","N sg","M pl","F pl","N pl"], rows: [
+    {label:"Nom.", cells:[{v:"Hic",e:true},{v:"Haec",e:true},{v:"Hoc",e:true},{v:"Hi",e:true},{v:"Hae",e:true},{v:"Haec",e:true}]},
+    {label:"Acc.", cells:[{v:"Hunc",e:true},{v:"Hanc",e:true},{v:"Hoc",e:true},{v:"Hos",e:true},{v:"Has",e:true},{v:"Haec",e:true}]},
+    {label:"Gén.", cells:[{v:"Huius",e:true},{v:"Huius",e:true},{v:"Huius",e:true},{v:"Horum",e:true},{v:"Harum",e:true},{v:"Horum",e:true}]},
+    {label:"Dat.", cells:[{v:"Huic",e:true},{v:"Huic",e:true},{v:"Huic",e:true},{v:"His",e:true},{v:"His",e:true},{v:"His",e:true}]},
+    {label:"Abl.", cells:[{v:"Hoc",e:true},{v:"Hac",e:true},{v:"Hoc",e:true},{v:"His",e:true},{v:"His",e:true},{v:"His",e:true}]}
+  ]},
+  {title: "Adjectifs 2e classe", headers: ["Cas","M/F sg","N sg","M/F pl","N pl"], rows: [
+    {label:"Nom.", cells:[{v:"Fortis",e:true},{v:"Forte",e:true},{v:"Fortes",e:true},{v:"Fortia",e:true}]},
+    {label:"Voc.", cells:[{v:"Fortis",e:true},{v:"Forte",e:true},{v:"Fortes",e:true},{v:"Fortia",e:true}]},
+    {label:"Acc.", cells:[{v:"Fortem",e:true},{v:"Forte",e:true},{v:"Fortes",e:true},{v:"Fortia",e:true}]},
+    {label:"Gén.", cells:[{v:"Fortis",e:true},{v:"Fortis",e:true},{v:"Fortium",e:true},{v:"Fortium",e:true}]},
+    {label:"Dat.", cells:[{v:"Forti",e:true},{v:"Forti",e:true},{v:"Fortibus",e:true},{v:"Fortibus",e:true}]},
+    {label:"Abl.", cells:[{v:"Forti",e:true},{v:"Forti",e:true},{v:"Fortibus",e:true},{v:"Fortibus",e:true}]}
   ]},
   {title: "Passif Présent", headers: ["Personne","Latin","Français"], rows: [
     {label:"1sg", cells:[{v:"Amor",e:true},{v:"je suis aimé",e:false}]},
@@ -764,13 +825,33 @@ function handleTableKey(e, ri, ci) {
     const allInputs = [];
     const maxRows = t.rows.length;
     const maxCols = t.rows[0].cells.length;
-    for (let col = 0; col < maxCols; col++) {
+    
+    // Détection du tableau des Pronoms Relatifs (par son titre)
+    const isPronomsRelatifs = t.title === "Pronoms Relatifs";
+    const isDeterminantsPossessifs = t.title === "Déterminants Possessifs";
+    const isDeterminantsDemonstratifs = t.title === "Déterminants Démonstratifs";
+    const isRowByRow = isPronomsRelatifs || isDeterminantsPossessifs || isDeterminantsDemonstratifs;
+    
+    if (isRowByRow) {
+      // Navigation LIGNE PAR LIGNE (gauche → droite) pour tableaux larges
       for (let row = 0; row < maxRows; row++) {
-        if (t.rows[row].cells[col].e) {
-          allInputs.push({row, col});
+        for (let col = 0; col < maxCols; col++) {
+          if (t.rows[row].cells[col].e) {
+            allInputs.push({row, col});
+          }
+        }
+      }
+    } else {
+      // Navigation COLONNE PAR COLONNE (haut → bas) pour les autres tableaux
+      for (let col = 0; col < maxCols; col++) {
+        for (let row = 0; row < maxRows; row++) {
+          if (t.rows[row].cells[col].e) {
+            allInputs.push({row, col});
+          }
         }
       }
     }
+    
     const currentIdx = allInputs.findIndex(inp => inp.row === ri && inp.col === ci);
     const nextIdx = (currentIdx + 1) % allInputs.length;
     const next = allInputs[nextIdx];
@@ -960,10 +1041,23 @@ const WORDS = [
 ];
 
 let wordIdx = 0;
+let SHUFFLED_WORDS = [];
+
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+// Mélanger les mots au chargement
+SHUFFLED_WORDS = shuffleArray(WORDS);
 
 function buildIdForm() {
   const f = document.getElementById('idForm');
-  const w = WORDS[wordIdx];
+  const w = SHUFFLED_WORDS[wordIdx];
   const isVerb = w.type === 'verb';
 
   if (!isVerb) {
@@ -991,20 +1085,20 @@ function buildIdForm() {
 }
 
 function renderWord() {
-  const w = WORDS[wordIdx];
+  const w = SHUFFLED_WORDS[wordIdx];
   document.getElementById('idWord').textContent = w.w;
-  document.getElementById('idCounter').textContent = (wordIdx + 1) + ' / ' + WORDS.length;
+  document.getElementById('idCounter').textContent = (wordIdx + 1) + ' / ' + SHUFFLED_WORDS.length;
 }
 
 function nextWord() {
-  wordIdx = (wordIdx + 1) % WORDS.length;
+  wordIdx = (wordIdx + 1) % SHUFFLED_WORDS.length;
   renderWord();
   buildIdForm();
   hideFeedback('feedbackId');
 }
 
 function validerIdentification() {
-  const w = WORDS[wordIdx];
+  const w = SHUFFLED_WORDS[wordIdx];
   const isVerb = w.type === 'verb';
   const errors = [], ok = [];
 
@@ -1083,6 +1177,7 @@ function validerIdentification() {
 }
 
 function reinitIdentification() {
+  SHUFFLED_WORDS = shuffleArray(WORDS); // Remélanger les mots
   wordIdx = 0;
   renderWord();
   buildIdForm();
@@ -1139,7 +1234,25 @@ const PHRASES = [
   {latin: "Hospes domum nostram inuenit.", trad: "L'hôte trouva notre maison.", lex: [{w:"hospes", t:"hôte — M, D3-impari"},{w:"domum", t:"maison — F, D4, acc."},{w:"nostram", t:"notre — pron. poss."},{w:"inuenit", t:"trouva — invenire, 3sg parf."}]},
   {latin: "Graeci Troianos armis vicerunt.", trad: "Les Grecs vainquirent les Troyens par les armes.", lex: [{w:"Graeci", t:"Grecs — M, D2, nom. pl"},{w:"Troianos", t:"Troyens — M, D2, acc. pl"},{w:"armis", t:"armes — N, D2, abl. pl"},{w:"vicerunt", t:"vainquirent — vincere, 3pl parf."}]},
   {latin: "Maestus pater filium absentem spectat.", trad: "Le père attristé regarde son fils absent.", lex: [{w:"maestus", t:"attristé — adj."},{w:"pater", t:"père — M, D3-impari"},{w:"filium", t:"fils — M, D2, acc."},{w:"absentem", t:"absent — adj."},{w:"spectat", t:"regarde — spectare, 3sg"}]},
-  {latin: "Ergo bellum gerere possumus.", trad: "Donc nous pouvons faire la guerre.", lex: [{w:"ergo", t:"donc — conj."},{w:"bellum", t:"guerre — N, D2, acc."},{w:"gerere", t:"faire — gerere, inf."},{w:"possumus", t:"nous pouvons — posse, 1pl"}]}
+  {latin: "Ergo bellum gerere possumus.", trad: "Donc nous pouvons faire la guerre.", lex: [{w:"ergo", t:"donc — conj."},{w:"bellum", t:"guerre — N, D2, acc."},{w:"gerere", t:"faire — gerere, inf."},{w:"possumus", t:"nous pouvons — posse, 1pl"}]},
+  {latin: "Hic consul ciuibus fortibus imperauit.", trad: "Ce consul commanda aux braves citoyens.", lex: [{w:"hic", t:"ce — dém."},{w:"consul", t:"consul — M, D3"},{w:"ciuibus", t:"citoyens — M, D3, dat. pl"},{w:"fortibus", t:"braves — adj."},{w:"imperauit", t:"commanda — imperare, parf."}]},
+  {latin: "Meum nomen in hac terra clarum est.", trad: "Mon nom est illustre dans cette terre.", lex: [{w:"meum", t:"mon — poss."},{w:"nomen", t:"nom — N, D3"},{w:"hac", t:"cette — dém. abl."},{w:"terra", t:"terre — F, D1"},{w:"clarum", t:"illustre — adj."},{w:"est", t:"est — esse"}]},
+  {latin: "Fortes milites hostium exercitum vicerunt.", trad: "Les braves soldats vainquirent l'armée des ennemis.", lex: [{w:"fortes", t:"braves — adj. 2e cl."},{w:"milites", t:"soldats — M, D3"},{w:"hostium", t:"ennemis — M, D3, gén."},{w:"exercitum", t:"armée — M, D4, acc."},{w:"vicerunt", t:"vainquirent — vincere, parf."}]},
+  {latin: "Haec nauis trans mare longum nauigabat.", trad: "Ce navire naviguait par-delà la longue mer.", lex: [{w:"haec", t:"ce — dém."},{w:"nauis", t:"navire — F, D3"},{w:"trans", t:"par-delà — prép."},{w:"mare", t:"mer — N, D3"},{w:"longum", t:"longue — adj."},{w:"nauigabat", t:"naviguait — navigare, imparf."}]},
+  {latin: "Tuus frater cum mea sorore ambulabat.", trad: "Ton frère marchait avec ma sœur.", lex: [{w:"tuus", t:"ton — poss."},{w:"frater", t:"frère — M, D3"},{w:"mea", t:"ma — poss."},{w:"sorore", t:"sœur — F, D3, abl."},{w:"ambulabat", t:"marchait — ambulare, imparf."}]},
+  {latin: "Fortia uerba ducis milites monebant.", trad: "Les braves paroles du chef avertissaient les soldats.", lex: [{w:"fortia", t:"braves — adj. 2e cl. N pl"},{w:"uerba", t:"paroles — N, D2"},{w:"ducis", t:"chef — M, D3, gén."},{w:"milites", t:"soldats — M, D3, acc."},{w:"monebant", t:"avertissaient — monere, imparf."}]},
+  {latin: "In hoc loco sacro deus habitabat.", trad: "Dans ce lieu sacré le dieu habitait.", lex: [{w:"hoc", t:"ce — dém."},{w:"loco", t:"lieu — M, D2, abl."},{w:"sacro", t:"sacré — adj."},{w:"deus", t:"dieu — M, D2"},{w:"habitabat", t:"habitait — habitare, imparf."}]},
+  {latin: "Nostri hostes urbem meam oppugnabant.", trad: "Nos ennemis attaquaient ma ville.", lex: [{w:"nostri", t:"nos — poss. M pl"},{w:"hostes", t:"ennemis — M, D3"},{w:"urbem", t:"ville — F, D3, acc."},{w:"meam", t:"ma — poss."},{w:"oppugnabant", t:"attaquaient — oppugnare, imparf."}]},
+  {latin: "Sapiens senex libros suos discipulis tradiderat.", trad: "Le sage vieillard avait livré ses livres aux élèves.", lex: [{w:"sapiens", t:"sage — adj. 2e cl."},{w:"senex", t:"vieillard — M, D3"},{w:"libros", t:"livres — M, D2, acc."},{w:"suos", t:"ses — poss."},{w:"discipulis", t:"élèves — M, D2, dat."},{w:"tradiderat", t:"avait livré — tradere, pqp"}]},
+  {latin: "Hae stellae in caelo nocturno lucebant.", trad: "Ces étoiles brillaient dans le ciel nocturne.", lex: [{w:"hae", t:"ces — dém. F pl"},{w:"stellae", t:"étoiles — F, D1"},{w:"caelo", t:"ciel — M, D2, abl."},{w:"nocturno", t:"nocturne — adj."},{w:"lucebant", t:"brillaient — lucere, imparf."}]},
+  {latin: "Fortis iuuenis pro patria sua pugnauerat.", trad: "Le brave jeune homme avait combattu pour sa patrie.", lex: [{w:"fortis", t:"brave — adj. 2e cl."},{w:"iuuenis", t:"jeune homme — M, D3"},{w:"pro", t:"pour — prép. + abl."},{w:"patria", t:"patrie — F, D1"},{w:"sua", t:"sa — poss."},{w:"pugnauerat", t:"avait combattu — pugnare, pqp"}]},
+  {latin: "Huius regis filii populum bene regebant.", trad: "Les fils de ce roi gouvernaient bien le peuple.", lex: [{w:"huius", t:"de ce — dém. gén."},{w:"regis", t:"roi — M, D3, gén."},{w:"filii", t:"fils — M, D2, nom. pl"},{w:"populum", t:"peuple — M, D2, acc."},{w:"bene", t:"bien — adv."},{w:"regebant", t:"gouvernaient — regere, imparf."}]},
+  {latin: "Mea mater meorum fratrum nomina sciebat.", trad: "Ma mère connaissait les noms de mes frères.", lex: [{w:"mea", t:"ma — poss."},{w:"mater", t:"mère — F, D3"},{w:"meorum", t:"mes — poss. M gén. pl"},{w:"fratrum", t:"frères — M, D3, gén."},{w:"nomina", t:"noms — N, D3, acc."},{w:"sciebat", t:"connaissait — scire, imparf."}]},
+  {latin: "Hi canes fortes dominos suos sequebantur.", trad: "Ces braves chiens suivaient leurs maîtres.", lex: [{w:"hi", t:"ces — dém. M pl"},{w:"canes", t:"chiens — M, D3"},{w:"fortes", t:"braves — adj. 2e cl."},{w:"dominos", t:"maîtres — M, D2, acc."},{w:"suos", t:"leurs — poss."},{w:"sequebantur", t:"suivaient — sequi, imparf. dép."}]},
+  {latin: "Haec flumina longa per nostras terras fluebant.", trad: "Ces longs fleuves coulaient à travers nos terres.", lex: [{w:"haec", t:"ces — dém. N pl"},{w:"flumina", t:"fleuves — N, D3"},{w:"longa", t:"longs — adj."},{w:"per", t:"à travers — prép."},{w:"nostras", t:"nos — poss. F acc. pl"},{w:"terras", t:"terres — F, D1"},{w:"fluebant", t:"coulaient — fluere, imparf."}]},
+  {latin: "Fortium militum uirtus magna erat.", trad: "Le courage des braves soldats était grand.", lex: [{w:"fortium", t:"braves — adj. 2e cl. gén."},{w:"militum", t:"soldats — M, D3, gén."},{w:"uirtus", t:"courage — F, D3"},{w:"magna", t:"grand — adj."},{w:"erat", t:"était — esse, imparf."}]},
+  {latin: "Hunc locum sacrum poetae laudauerant.", trad: "Les poètes avaient loué ce lieu sacré.", lex: [{w:"hunc", t:"ce — dém. M acc."},{w:"locum", t:"lieu — M, D2, acc."},{w:"sacrum", t:"sacré — adj."},{w:"poetae", t:"poètes — M, D1, nom. pl"},{w:"laudauerant", t:"avaient loué — laudare, pqp"}]},
+  {latin: "Vestri filii in his castris fortiores erant.", trad: "Vos fils étaient plus braves dans ces camps.", lex: [{w:"vestri", t:"vos — poss. M pl"},{w:"filii", t:"fils — M, D2"},{w:"his", t:"ces — dém. abl. pl"},{w:"castris", t:"camps — N, D2, abl."},{w:"fortiores", t:"plus braves — adj. comp."},{w:"erant", t:"étaient — esse, imparf."}]}
 ];
 
 let phraseIdx = 0;
